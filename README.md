@@ -3,7 +3,7 @@
 
 # Broodcamp Commons
 
-Collection of common broodcamp projects.
+Collection of common broodcamp projects. Model, DTO and API base classes.
 
 ## Authors
 
