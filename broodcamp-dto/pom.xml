@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.broodcamp</groupId>
+		<artifactId>broodcamp-commons</artifactId>
+		<version>0.0.1</version>
+	</parent>
+	<artifactId>broodcamp-dto</artifactId>
+	<name>Broodcamp Dto</name>
+	<description>Broodcamp Dto</description>
+	<url>http://github.com/czetsuya</url>
+	<scm>
+		<developerConnection>Edward P. Legaspi &lt;czetsuya@gmail.com&gt;</developerConnection>
+	</scm>
+	
+	<licenses>
+		<license>
+			<name>GNU GPL, Version 3.0</name>
+			<distribution>repo</distribution>
+			<url>https://www.gnu.org/licenses/gpl-3.0.en.html</url>
+		</license>
+	</licenses>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.broodcamp</groupId>
+			<artifactId>broodcamp-model</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+	</dependencies>
+</project>
