@@ -17,17 +17,18 @@
  */
 package com.broodcamp.data.entity;
 
-import java.io.Serializable;
-import java.util.UUID;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * @author Edward P. Legaspi | czetsuya@gmail.com czetsuya@gmail.com
+ * @author Edward P. Legaspi | czetsuya@gmail.com
  */
-public interface IEntity {
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ ElementType.TYPE })
+@Inherited
+public @interface IObservable {
 
-	UUID getId();
-
-	Serializable getEntityId();
-
-	boolean isTransient();
 }

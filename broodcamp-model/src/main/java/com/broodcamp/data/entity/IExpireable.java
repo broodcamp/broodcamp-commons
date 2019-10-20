@@ -17,17 +17,11 @@
  */
 package com.broodcamp.data.entity;
 
-import java.io.Serializable;
-import java.util.UUID;
-
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com czetsuya@gmail.com
- */
-public interface IEntity {
+ **/
+public interface IExpireable {
+	
+	boolean isExpired();
 
-	UUID getId();
-
-	Serializable getEntityId();
-
-	boolean isTransient();
 }
