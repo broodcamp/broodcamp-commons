@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.data.entity;
+package com.broodcamp.data.entity.shared;
 
 import java.io.Serializable;
 
@@ -63,7 +63,14 @@ public class Name implements Serializable, Cloneable {
         init(name);
     }
 
+    public Name(String firstName, String lastName) {
+        
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public void init(Name name) {
+        
         if (name != null) {
             if (!StringUtils.isBlank(name.getFirstName())) {
                 this.firstName = name.getFirstName();
@@ -81,6 +88,7 @@ public class Name implements Serializable, Cloneable {
     }
 
     public String getFullName() {
+        
         StringBuilder sb = new StringBuilder();
         if (!StringUtils.isBlank(firstName)) {
             sb.append(firstName);

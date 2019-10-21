@@ -24,6 +24,7 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Version;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -50,6 +51,10 @@ public abstract class BaseEntity implements Serializable, IEntity {
     @GeneratedValue
     @Column(columnDefinition = "uuid", updatable = false)
     private UUID id;
+
+    @Version
+    @Column(name = "version")
+    private Integer version;
 
     /**
      * The entity.id. Unfortunately, the field "id" is already reserved/use by
