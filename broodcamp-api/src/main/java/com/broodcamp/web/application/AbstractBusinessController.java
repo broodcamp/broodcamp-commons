@@ -32,13 +32,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.broodcamp.data.dto.BusinessEntityDto;
 import com.broodcamp.data.entity.BusinessEntity;
 import com.broodcamp.data.repository.BusinessRepository;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
-public abstract class AbstractBusinessController<E extends BusinessEntity, I extends Serializable> extends AbstractEnableController<E, I> {
+public abstract class AbstractBusinessController<E extends BusinessEntity, D extends BusinessEntityDto, I extends Serializable> extends AbstractEnableController<E, D, I> {
 
     protected BusinessRepository<E, I> businessRepository;
 
@@ -65,7 +66,9 @@ public abstract class AbstractBusinessController<E extends BusinessEntity, I ext
 //	@ApiOperation(value = "Update new entity" //
 //			, notes = "Updates new entity. Returns the updated entity.")
     @PutMapping(path = "/{uid}")
-    public ResponseEntity<E> update(@RequestBody E newEntity, @PathVariable /* @ApiParam(value = "entity uid", required = true) */ I uid) {
+    public ResponseEntity<E> update(@RequestBody D newDto, @PathVariable /* @ApiParam(value = "entity uid", required = true) */ I uid) {
+
+        E newEntity = getGenericMapper().toModel(newDto);
 
         E updatedEntity = businessRepository.findById(uid).map(entity -> {
             entity.setDescription(newEntity.getDescription());

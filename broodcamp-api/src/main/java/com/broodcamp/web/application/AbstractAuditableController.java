@@ -23,19 +23,20 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.validation.Validator;
 
+import com.broodcamp.data.dto.AuditableEntityDto;
 import com.broodcamp.data.entity.AuditableEntity;
 import com.broodcamp.data.repository.AuditableRepository;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
-public abstract class AbstractAuditableController<E extends AuditableEntity, I extends Serializable> extends AbstractBaseController<E, I> {
+public abstract class AbstractAuditableController<E extends AuditableEntity, D extends AuditableEntityDto, I extends Serializable> extends AbstractBaseController<E, D, I> {
 
-	@SuppressWarnings("rawtypes")
+    @SuppressWarnings("rawtypes")
     public AbstractAuditableController(AuditableRepository<E, I> repository, RepresentationModelAssembler<E, EntityModel<E>> modelAssembler, Validator validator,
-			Class<IController> iController) {
+            Class<IController> iController) {
 
-		super(repository, modelAssembler, validator, iController);
-	}
+        super(repository, modelAssembler, validator, iController);
+    }
 
 }

@@ -46,6 +46,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.broodcamp.business.exception.ResourceNotFoundException;
+import com.broodcamp.data.dto.BaseEntityDto;
+import com.broodcamp.data.dto.mapper.GenericMapper;
 import com.broodcamp.data.entity.BaseEntity;
 import com.broodcamp.data.repository.BaseRepository;
 
@@ -55,7 +57,7 @@ import lombok.NoArgsConstructor;
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
 @NoArgsConstructor
-public abstract class AbstractBaseController<E extends BaseEntity, I extends Serializable> {
+public abstract class AbstractBaseController<E extends BaseEntity, D extends BaseEntityDto, I extends Serializable> {
 
     public static final int DEFAULT_PAGE_SIZE = 10;
 
@@ -98,19 +100,21 @@ public abstract class AbstractBaseController<E extends BaseEntity, I extends Ser
     // @ApiOperation(value = "Create new entity" //
     // , notes = "Creates new entity. Returns the created entity with uid.")
     @PostMapping
-    public ResponseEntity<EntityModel<E>> create(@RequestBody @Valid E entity) {
+    public ResponseEntity<EntityModel<E>> create(@RequestBody @Valid D dto) {
+
+        E entity = getGenericMapper().toModel(dto);
 
         final EntityModel<E> resource = modelAssembler.toModel(repository.save(entity));
         return ResponseEntity.created(linkTo(controllerClass).slash(entity.getId()).withSelfRel().toUri()).body(resource);
     }
 
     @PutMapping(path = "/{uid}")
-    public abstract ResponseEntity<E> update(@RequestBody E newEntity, @PathVariable /* @ApiParam(value = "entity uid", required = true) */ I uid);
+    public abstract ResponseEntity<E> update(@RequestBody D newDto, @PathVariable /* @ApiParam(value = "entity uid", required = true) */ I uid);
 
     @PostMapping(path = "/{uid}/createOrUpdate")
-    public ResponseEntity<?> createOrUpdate(@RequestBody @Valid E newEntity, @PathVariable("uuid") I uid) {
+    public ResponseEntity<?> createOrUpdate(@RequestBody @Valid D newDto, @PathVariable("uuid") I uid) {
 
-        return repository.findById(uid).isPresent() ? update(newEntity, uid) : create(newEntity);
+        return repository.findById(uid).isPresent() ? update(newDto, uid) : create(newDto);
     }
 
     // @ApiOperation(value = "Get entity by uid" //
@@ -174,6 +178,8 @@ public abstract class AbstractBaseController<E extends BaseEntity, I extends Ser
 
         return ResponseEntity.noContent().build();
     }
+
+    public abstract GenericMapper<E, D> getGenericMapper();
 
     protected ResourceNotFoundException createNewResourceNotFoundException(Serializable id) {
 
