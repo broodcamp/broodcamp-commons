@@ -44,7 +44,7 @@ public abstract class AbstractBusinessController<E extends BusinessEntity, D ext
     protected BusinessRepository<E, I> businessRepository;
 
     @SuppressWarnings("rawtypes")
-    public AbstractBusinessController(BusinessRepository<E, I> repository, RepresentationModelAssembler<E, EntityModel<E>> modelAssembler, Validator validator,
+    public AbstractBusinessController(BusinessRepository<E, I> repository, RepresentationModelAssembler<D, EntityModel<D>> modelAssembler, Validator validator,
             Class<IController> iController) {
 
         super(repository, modelAssembler, validator, iController);
@@ -86,10 +86,10 @@ public abstract class AbstractBusinessController<E extends BusinessEntity, D ext
 //			, notes = "Returns the entity for the code specified.")
 //	@ApiResponses(value = { @ApiResponse(code = 404, message = "Entity not found") })
     @GetMapping(path = "/code/{code}")
-    public EntityModel<E> findByCode(@PathVariable @Size(min = 2, max = 50) /* @ApiParam(value = "entity code", required = true) */ String code) {
+    public EntityModel<D> findByCode(@PathVariable @Size(min = 2, max = 50) /* @ApiParam(value = "entity code", required = true) */ String code) {
 
         E entity = businessRepository.findByCode(code).orElseThrow(() -> createNewResourceNotFoundException(code));
 
-        return modelAssembler.toModel(entity);
+        return modelAssembler.toModel(getGenericMapper().toDto(entity));
     }
 }

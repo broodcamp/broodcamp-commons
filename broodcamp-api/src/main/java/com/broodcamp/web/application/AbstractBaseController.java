@@ -65,11 +65,11 @@ public abstract class AbstractBaseController<E extends BaseEntity, D extends Bas
     @SuppressWarnings("rawtypes")
     protected Class<IController> controllerClass;
     protected Validator validator;
-    protected RepresentationModelAssembler<E, EntityModel<E>> modelAssembler;
+    protected RepresentationModelAssembler<D, EntityModel<D>> modelAssembler;
     protected BaseRepository<E, I> repository;
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    public AbstractBaseController(BaseRepository<E, I> repository, RepresentationModelAssembler<E, EntityModel<E>> modelAssembler, Validator validator,
+    public AbstractBaseController(BaseRepository<E, I> repository, RepresentationModelAssembler<D, EntityModel<D>> modelAssembler, Validator validator,
             Class<IController> iController) {
 
         this.repository = repository;
@@ -100,11 +100,11 @@ public abstract class AbstractBaseController<E extends BaseEntity, D extends Bas
     // @ApiOperation(value = "Create new entity" //
     // , notes = "Creates new entity. Returns the created entity with uid.")
     @PostMapping
-    public ResponseEntity<EntityModel<E>> create(@RequestBody @Valid D dto) {
+    public ResponseEntity<EntityModel<D>> create(@RequestBody @Valid D dto) {
 
         E entity = getGenericMapper().toModel(dto);
 
-        final EntityModel<E> resource = modelAssembler.toModel(repository.save(entity));
+        final EntityModel<D> resource = modelAssembler.toModel(getGenericMapper().toDto(repository.save(entity)));
         return ResponseEntity.created(linkTo(controllerClass).slash(entity.getId()).withSelfRel().toUri()).body(resource);
     }
 
@@ -134,18 +134,18 @@ public abstract class AbstractBaseController<E extends BaseEntity, D extends Bas
      */
     @SuppressWarnings("unchecked")
     @GetMapping(path = "/{uid}")
-    public EntityModel<E> findById(@PathVariable /* @ApiParam(value = "entity identifier", required = true) */ UUID uid) {
+    public EntityModel<D> findById(@PathVariable /* @ApiParam(value = "entity identifier", required = true) */ UUID uid) {
 
         E entity = repository.findById((I) uid).orElseThrow(() -> createNewResourceNotFoundException(uid));
 
-        return modelAssembler.toModel(entity);
+        return modelAssembler.toModel(getGenericMapper().toDto(entity));
     }
 
     // @ApiOperation(value = "Get all categories" //
     // , notes = "Returns first N categories specified by the size parameter with
     // page offset specified by page parameter.")
     @GetMapping
-    public CollectionModel<EntityModel<E>> findAll(/*
+    public CollectionModel<EntityModel<D>> findAll(/*
                                                     * @ApiParam(value = "The size of the page to be returned", defaultValue = "" +
                                                     * DEFAULT_PAGE_SIZE) @RequestParam(required = false)
                                                     */ Integer size //
@@ -163,7 +163,7 @@ public abstract class AbstractBaseController<E extends BaseEntity, D extends Bas
 
         Pageable pageable = PageRequest.of(page, size);
 
-        List<EntityModel<E>> entities = repository.findAll(pageable).stream().map(modelAssembler::toModel).collect(Collectors.toList());
+        List<EntityModel<D>> entities = repository.findAll(pageable).stream().map(e -> modelAssembler.toModel(getGenericMapper().toDto(e))).collect(Collectors.toList());
 
         return new CollectionModel<>(entities, linkTo(methodOn(controllerClass).findAll(size, page)).withSelfRel());
     }

@@ -33,7 +33,7 @@ import com.broodcamp.data.repository.AuditableRepository;
 public abstract class AbstractAuditableController<E extends AuditableEntity, D extends AuditableEntityDto, I extends Serializable> extends AbstractBaseController<E, D, I> {
 
     @SuppressWarnings("rawtypes")
-    public AbstractAuditableController(AuditableRepository<E, I> repository, RepresentationModelAssembler<E, EntityModel<E>> modelAssembler, Validator validator,
+    public AbstractAuditableController(AuditableRepository<E, I> repository, RepresentationModelAssembler<D, EntityModel<D>> modelAssembler, Validator validator,
             Class<IController> iController) {
 
         super(repository, modelAssembler, validator, iController);

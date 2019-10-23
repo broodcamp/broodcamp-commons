@@ -20,16 +20,16 @@ package com.broodcamp.web.assembler;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 
-import com.broodcamp.data.entity.IEntity;
+import com.broodcamp.data.dto.BaseEntityDto;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
-public class AbstractResourceAssembler<E extends IEntity> implements RepresentationModelAssembler<E, EntityModel<E>> {
+public class AbstractResourceAssembler<D extends BaseEntityDto> implements RepresentationModelAssembler<D, EntityModel<D>> {
 
-	@Override
-	public EntityModel<E> toModel(E entity) {
-		return null;
-	}
+    @Override
+    public EntityModel<D> toModel(D entity) {
+        return null;
+    }
 
 }
