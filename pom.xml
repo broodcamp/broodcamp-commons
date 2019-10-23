@@ -115,7 +115,7 @@
 				<artifactId>broodcamp-utils</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-
+			<!-- https://github.com/broodcamp/broodcamp-utils -->
 			<dependency>
 				<groupId>com.broodcamp</groupId>
 				<artifactId>broodcamp-utils</artifactId>
