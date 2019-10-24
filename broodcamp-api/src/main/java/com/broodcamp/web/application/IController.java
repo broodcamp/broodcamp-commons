@@ -17,8 +17,11 @@
  */
 package com.broodcamp.web.application;
 
+import java.util.UUID;
+
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.broodcamp.data.dto.BaseEntityDto;
 
@@ -28,5 +31,7 @@ import com.broodcamp.data.dto.BaseEntityDto;
 public interface IController<D extends BaseEntityDto> {
 
     CollectionModel<EntityModel<D>> findAll(Integer size, Integer page);
+
+    EntityModel<D> findById(@PathVariable UUID uid);
 
 }

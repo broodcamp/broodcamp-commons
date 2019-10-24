@@ -1,5 +1,5 @@
 /**
- * Broodcamp Library
+ * An Open Source Inventory and Sales Management System
  * Copyright (C) 2019 Edward P. Legaspi (https://github.com/czetsuya)
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -23,29 +23,32 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 
-import com.broodcamp.data.dto.BaseEntityDto;
-import com.broodcamp.web.application.AbstractBaseController;
+import com.broodcamp.data.dto.BusinessEntityDto;
+import com.broodcamp.web.application.AbstractBusinessController;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
-@SuppressWarnings("rawtypes")
-public abstract class AbstractResourceAssembler<D extends BaseEntityDto> implements RepresentationModelAssembler<D, EntityModel<D>> {
+public abstract class AbstractBusinessResourceAssembler<D extends BusinessEntityDto> extends AbstractEnableResourceAssember<D>
+        implements RepresentationModelAssembler<D, EntityModel<D>> {
 
-    private Class<? extends AbstractBaseController> controllerClass;
+    @SuppressWarnings("rawtypes")
+    private Class<? extends AbstractBusinessController> controllerClass;
 
-    public AbstractResourceAssembler(Class<? extends AbstractBaseController> controllerClass) {
+    @SuppressWarnings("rawtypes")
+    public AbstractBusinessResourceAssembler(Class<? extends AbstractBusinessController> controllerClass) {
 
+        super(controllerClass);
         this.controllerClass = controllerClass;
     }
 
     @Override
     public EntityModel<D> toModel(D entity) {
 
-        EntityModel<D> result = new EntityModel<>(entity);
-        result = result.add(linkTo(methodOn(controllerClass).findById(entity.getId())).withSelfRel());
-        result = result.add(linkTo(methodOn(controllerClass).findAll(AbstractBaseController.DEFAULT_PAGE_SIZE, 0)).withRel("entities"));
+        EntityModel<D> result = super.toModel(entity);
+        result = result.add(linkTo(methodOn(controllerClass).findByCode(entity.getCode())).withRel("code"));
 
         return result;
     }
+
 }

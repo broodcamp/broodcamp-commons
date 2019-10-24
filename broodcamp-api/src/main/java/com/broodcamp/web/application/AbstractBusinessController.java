@@ -23,10 +23,9 @@ import java.util.UUID;
 
 import javax.validation.constraints.Size;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -36,20 +35,16 @@ import com.broodcamp.data.dto.BusinessEntityDto;
 import com.broodcamp.data.entity.BusinessEntity;
 import com.broodcamp.data.repository.BusinessRepository;
 
+import lombok.NoArgsConstructor;
+
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
+@NoArgsConstructor
 public abstract class AbstractBusinessController<E extends BusinessEntity, D extends BusinessEntityDto, I extends Serializable> extends AbstractEnableController<E, D, I> {
 
+    @Autowired
     protected BusinessRepository<E, I> businessRepository;
-
-    @SuppressWarnings("rawtypes")
-    public AbstractBusinessController(BusinessRepository<E, I> repository, RepresentationModelAssembler<D, EntityModel<D>> modelAssembler, Validator validator,
-            Class<IController> iController) {
-
-        super(repository, modelAssembler, validator, iController);
-        this.businessRepository = repository;
-    }
 
     /**
      * Updates a business entity.

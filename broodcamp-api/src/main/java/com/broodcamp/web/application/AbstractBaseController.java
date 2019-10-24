@@ -21,14 +21,15 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.io.Serializable;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.TypeVariable;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.MessageSource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.CollectionModel;
@@ -48,53 +49,54 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.broodcamp.business.exception.ResourceNotFoundException;
 import com.broodcamp.data.dto.BaseEntityDto;
 import com.broodcamp.data.dto.mapper.GenericMapper;
+import com.broodcamp.data.dto.mapper.GenericMapperService;
 import com.broodcamp.data.entity.BaseEntity;
 import com.broodcamp.data.repository.BaseRepository;
-
-import lombok.NoArgsConstructor;
+import com.broodcamp.util.ReflectionUtils;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
-@NoArgsConstructor
 public abstract class AbstractBaseController<E extends BaseEntity, D extends BaseEntityDto, I extends Serializable> {
 
     public static final int DEFAULT_PAGE_SIZE = 10;
 
-    protected Class<E> entityClass;
-    @SuppressWarnings("rawtypes")
-    protected Class<IController> controllerClass;
-    protected Validator validator;
-    protected RepresentationModelAssembler<D, EntityModel<D>> modelAssembler;
+    @Autowired
+    protected GenericMapperService<E, D> genericMapperService;
+
+    @Autowired
+    protected @Qualifier("validator") Validator validator;
+
+    @Autowired
+    protected MessageSource messageSource;
+
+    @Autowired
     protected BaseRepository<E, I> repository;
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    public AbstractBaseController(BaseRepository<E, I> repository, RepresentationModelAssembler<D, EntityModel<D>> modelAssembler, Validator validator,
-            Class<IController> iController) {
+    @Autowired
+    protected RepresentationModelAssembler<D, EntityModel<D>> modelAssembler;
 
-        this.repository = repository;
-        this.modelAssembler = modelAssembler;
-        this.validator = validator;
-        this.controllerClass = iController;
+    @SuppressWarnings("rawtypes")
+    protected Class<IController> controllerClass;
+    protected Class<E> entityClass;
+    protected Class<D> dtoClass;
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public AbstractBaseController() {
 
         Class clazz = getClass();
-        while (!(clazz.getGenericSuperclass() instanceof ParameterizedType)) {
-            clazz = clazz.getSuperclass();
-        }
-
-        Object o = ((ParameterizedType) clazz.getGenericSuperclass()).getActualTypeArguments()[0];
-
-        if (o instanceof TypeVariable) {
-            this.entityClass = (Class<E>) ((TypeVariable) o).getBounds()[0];
-
-        } else {
-            this.entityClass = (Class<E>) o;
-        }
+        entityClass = (Class<E>) ReflectionUtils.getParameterTypeClass(clazz, 0);
+        dtoClass = (Class<D>) ReflectionUtils.getParameterTypeClass(clazz, 1);
+        controllerClass = IController.class;
     }
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
         binder.setValidator(validator);
+    }
+
+    public GenericMapper<E, D> getGenericMapper() {
+        return genericMapperService.getMapper(entityClass, dtoClass);
     }
 
     // @ApiOperation(value = "Create new entity" //
@@ -109,7 +111,10 @@ public abstract class AbstractBaseController<E extends BaseEntity, D extends Bas
     }
 
     @PutMapping(path = "/{uid}")
-    public abstract ResponseEntity<E> update(@RequestBody D newDto, @PathVariable /* @ApiParam(value = "entity uid", required = true) */ I uid);
+    public ResponseEntity<E> update(@RequestBody D newDto, @PathVariable /* @ApiParam(value = "entity uid", required = true) */ I uid) {
+        
+        return null;
+    }
 
     @PostMapping(path = "/{uid}/createOrUpdate")
     public ResponseEntity<?> createOrUpdate(@RequestBody @Valid D newDto, @PathVariable("uuid") I uid) {
@@ -178,8 +183,6 @@ public abstract class AbstractBaseController<E extends BaseEntity, D extends Bas
 
         return ResponseEntity.noContent().build();
     }
-
-    public abstract GenericMapper<E, D> getGenericMapper();
 
     protected ResourceNotFoundException createNewResourceNotFoundException(Serializable id) {
 

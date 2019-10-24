@@ -19,24 +19,15 @@ package com.broodcamp.web.application;
 
 import java.io.Serializable;
 
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.server.RepresentationModelAssembler;
-import org.springframework.validation.Validator;
-
 import com.broodcamp.data.dto.EnableEntityDto;
 import com.broodcamp.data.entity.EnableEntity;
-import com.broodcamp.data.repository.EnableRepository;
+
+import lombok.NoArgsConstructor;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
+@NoArgsConstructor
 public abstract class AbstractEnableController<E extends EnableEntity, D extends EnableEntityDto, I extends Serializable> extends AbstractAuditableController<E, D, I> {
-
-    @SuppressWarnings("rawtypes")
-    public AbstractEnableController(EnableRepository<E, I> repository, RepresentationModelAssembler<D, EntityModel<D>> modelAssembler, Validator validator,
-            Class<IController> iController) {
-
-        super(repository, modelAssembler, validator, iController);
-    }
 
 }
