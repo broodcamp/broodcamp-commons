@@ -25,7 +25,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.transaction.NotSupportedException;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -102,7 +104,7 @@ public abstract class AbstractController<E extends BaseEntity, D extends BaseEnt
     // @ApiOperation(value = "Create new entity" //
     // , notes = "Creates new entity. Returns the created entity with uid.")
     @PostMapping
-    public ResponseEntity<EntityModel<D>> create(@RequestBody @Valid D dto) {
+    public ResponseEntity<EntityModel<D>> create(@RequestBody @NotNull @Valid D dto) throws NotSupportedException {
 
         E entity = getGenericMapper().toModel(dto);
 
@@ -112,12 +114,12 @@ public abstract class AbstractController<E extends BaseEntity, D extends BaseEnt
 
     @PutMapping(path = "/{uid}")
     public ResponseEntity<E> update(@RequestBody D newDto, @PathVariable /* @ApiParam(value = "entity uid", required = true) */ I uid) {
-        
+
         return null;
     }
 
     @PostMapping(path = "/{uid}/createOrUpdate")
-    public ResponseEntity<?> createOrUpdate(@RequestBody @Valid D newDto, @PathVariable("uuid") I uid) {
+    public ResponseEntity<?> createOrUpdate(@RequestBody @Valid D newDto, @PathVariable("uuid") I uid) throws NotSupportedException {
 
         return repository.findById(uid).isPresent() ? update(newDto, uid) : create(newDto);
     }
