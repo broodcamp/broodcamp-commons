@@ -24,7 +24,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 
 import com.broodcamp.data.dto.BaseEntityDto;
-import com.broodcamp.web.application.AbstractBaseController;
+import com.broodcamp.web.application.AbstractController;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
@@ -32,9 +32,9 @@ import com.broodcamp.web.application.AbstractBaseController;
 @SuppressWarnings("rawtypes")
 public abstract class AbstractResourceAssembler<D extends BaseEntityDto> implements RepresentationModelAssembler<D, EntityModel<D>> {
 
-    private Class<? extends AbstractBaseController> controllerClass;
+    private Class<? extends AbstractController> controllerClass;
 
-    public AbstractResourceAssembler(Class<? extends AbstractBaseController> controllerClass) {
+    public AbstractResourceAssembler(Class<? extends AbstractController> controllerClass) {
 
         this.controllerClass = controllerClass;
     }
@@ -44,7 +44,7 @@ public abstract class AbstractResourceAssembler<D extends BaseEntityDto> impleme
 
         EntityModel<D> result = new EntityModel<>(entity);
         result = result.add(linkTo(methodOn(controllerClass).findById(entity.getId())).withSelfRel());
-        result = result.add(linkTo(methodOn(controllerClass).findAll(AbstractBaseController.DEFAULT_PAGE_SIZE, 0)).withRel("entities"));
+        result = result.add(linkTo(methodOn(controllerClass).findAll(AbstractController.DEFAULT_PAGE_SIZE, 0)).withRel("entities"));
 
         return result;
     }

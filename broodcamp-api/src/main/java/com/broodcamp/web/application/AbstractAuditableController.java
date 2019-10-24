@@ -28,6 +28,6 @@ import lombok.NoArgsConstructor;
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
 @NoArgsConstructor
-public abstract class AbstractAuditableController<E extends AuditableEntity, D extends AuditableEntityDto, I extends Serializable> extends AbstractBaseController<E, D, I> {
+public abstract class AbstractAuditableController<E extends AuditableEntity, D extends AuditableEntityDto, I extends Serializable> extends AbstractController<E, D, I> {
 
 }

@@ -57,7 +57,7 @@ import com.broodcamp.util.ReflectionUtils;
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
-public abstract class AbstractBaseController<E extends BaseEntity, D extends BaseEntityDto, I extends Serializable> {
+public abstract class AbstractController<E extends BaseEntity, D extends BaseEntityDto, I extends Serializable> {
 
     public static final int DEFAULT_PAGE_SIZE = 10;
 
@@ -82,7 +82,7 @@ public abstract class AbstractBaseController<E extends BaseEntity, D extends Bas
     protected Class<D> dtoClass;
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    public AbstractBaseController() {
+    public AbstractController() {
 
         Class clazz = getClass();
         entityClass = (Class<E>) ReflectionUtils.getParameterTypeClass(clazz, 0);

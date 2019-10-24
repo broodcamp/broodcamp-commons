@@ -17,12 +17,17 @@
  */
 package com.broodcamp.data.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import lombok.Data;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  **/
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public abstract class BaseDto {
 
     
