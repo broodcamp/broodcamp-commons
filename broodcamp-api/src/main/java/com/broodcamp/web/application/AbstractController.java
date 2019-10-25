@@ -21,6 +21,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -54,11 +55,15 @@ import com.broodcamp.data.dto.mapper.GenericMapper;
 import com.broodcamp.data.dto.mapper.GenericMapperService;
 import com.broodcamp.data.entity.BaseEntity;
 import com.broodcamp.data.repository.BaseRepository;
+import com.broodcamp.util.BeanUtils;
 import com.broodcamp.util.ReflectionUtils;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
+@Slf4j
 public abstract class AbstractController<E extends BaseEntity, D extends BaseEntityDto, I extends Serializable> {
 
     public static final int DEFAULT_PAGE_SIZE = 10;
@@ -77,6 +82,9 @@ public abstract class AbstractController<E extends BaseEntity, D extends BaseEnt
 
     @Autowired
     protected RepresentationModelAssembler<D, EntityModel<D>> modelAssembler;
+
+    @Autowired
+    protected GenericMapper<E, D> genericMapper;
 
     @SuppressWarnings("rawtypes")
     protected Class<IController> controllerClass;
@@ -97,25 +105,37 @@ public abstract class AbstractController<E extends BaseEntity, D extends BaseEnt
         binder.setValidator(validator);
     }
 
-    public GenericMapper<E, D> getGenericMapper() {
-        return genericMapperService.getMapper(entityClass, dtoClass);
-    }
-
     // @ApiOperation(value = "Create new entity" //
     // , notes = "Creates new entity. Returns the created entity with uid.")
     @PostMapping
     public ResponseEntity<EntityModel<D>> create(@RequestBody @NotNull @Valid D dto) throws NotSupportedException {
 
-        E entity = getGenericMapper().toModel(dto);
+        E entity = genericMapper.toModel(dto);
 
-        final EntityModel<D> resource = modelAssembler.toModel(getGenericMapper().toDto(repository.save(entity)));
+        final EntityModel<D> resource = modelAssembler.toModel(genericMapper.toDto(repository.save(entity)));
         return ResponseEntity.created(linkTo(controllerClass).slash(entity.getId()).withSelfRel().toUri()).body(resource);
     }
 
     @PutMapping(path = "/{uid}")
-    public ResponseEntity<E> update(@RequestBody D newDto, @PathVariable /* @ApiParam(value = "entity uid", required = true) */ I uid) {
+    public ResponseEntity<D> update(@RequestBody D newDto, @PathVariable /* @ApiParam(value = "entity uid", required = true) */ I uid) {
 
-        return null;
+        E newEntity = genericMapper.toModel(newDto);
+
+        E updatedEntity = repository.findById(uid).map(entity -> {
+            try {
+                BeanUtils.copyProperties(newEntity, entity);
+
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                log.warn("Update failed: {}", e.getMessage());
+            }
+            return repository.save(entity);
+
+        }).orElseGet(() -> {
+            newEntity.setId((UUID) uid);
+            return repository.save(newEntity);
+        });
+
+        return ResponseEntity.ok().body(genericMapper.toDto(updatedEntity));
     }
 
     @PostMapping(path = "/{uid}/createOrUpdate")
@@ -145,7 +165,7 @@ public abstract class AbstractController<E extends BaseEntity, D extends BaseEnt
 
         E entity = repository.findById((I) uid).orElseThrow(() -> createNewResourceNotFoundException(uid));
 
-        return modelAssembler.toModel(getGenericMapper().toDto(entity));
+        return modelAssembler.toModel(genericMapper.toDto(entity));
     }
 
     // @ApiOperation(value = "Get all categories" //
@@ -170,7 +190,7 @@ public abstract class AbstractController<E extends BaseEntity, D extends BaseEnt
 
         Pageable pageable = PageRequest.of(page, size);
 
-        List<EntityModel<D>> entities = repository.findAll(pageable).stream().map(e -> modelAssembler.toModel(getGenericMapper().toDto(e))).collect(Collectors.toList());
+        List<EntityModel<D>> entities = repository.findAll(pageable).stream().map(e -> modelAssembler.toModel(genericMapper.toDto(e))).collect(Collectors.toList());
 
         return new CollectionModel<>(entities, linkTo(methodOn(controllerClass).findAll(size, page)).withSelfRel());
     }

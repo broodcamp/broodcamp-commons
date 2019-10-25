@@ -18,18 +18,13 @@
 package com.broodcamp.web.application;
 
 import java.io.Serializable;
-import java.net.URISyntaxException;
-import java.util.UUID;
 
 import javax.validation.constraints.Size;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.broodcamp.data.dto.BusinessEntityDto;
 import com.broodcamp.data.entity.BusinessEntity;
@@ -46,37 +41,6 @@ public abstract class AbstractBusinessController<E extends BusinessEntity, D ext
     @Autowired
     protected BusinessRepository<E, I> businessRepository;
 
-    /**
-     * Updates a business entity.
-     * <p>
-     * ID type cannot be use as a parameters as HATEOAS will not be able to produce
-     * a converter.
-     * </p>
-     * 
-     * @param newEntity
-     * @param uid
-     * @return
-     * @throws URISyntaxException
-     */
-//	@ApiOperation(value = "Update new entity" //
-//			, notes = "Updates new entity. Returns the updated entity.")
-    @PutMapping(path = "/{uid}")
-    public ResponseEntity<E> update(@RequestBody D newDto, @PathVariable /* @ApiParam(value = "entity uid", required = true) */ I uid) {
-
-        E newEntity = getGenericMapper().toModel(newDto);
-
-        E updatedEntity = businessRepository.findById(uid).map(entity -> {
-            entity.setDescription(newEntity.getDescription());
-            return businessRepository.save(entity);
-
-        }).orElseGet(() -> {
-            newEntity.setId((UUID) uid);
-            return businessRepository.save(newEntity);
-        });
-
-        return ResponseEntity.ok().body(updatedEntity);
-    }
-
 //	@ApiOperation(value = "Get entity by code" //
 //			, notes = "Returns the entity for the code specified.")
 //	@ApiResponses(value = { @ApiResponse(code = 404, message = "Entity not found") })
@@ -85,6 +49,6 @@ public abstract class AbstractBusinessController<E extends BusinessEntity, D ext
 
         E entity = businessRepository.findByCode(code).orElseThrow(() -> createNewResourceNotFoundException(code));
 
-        return modelAssembler.toModel(getGenericMapper().toDto(entity));
+        return modelAssembler.toModel(genericMapper.toDto(entity));
     }
 }

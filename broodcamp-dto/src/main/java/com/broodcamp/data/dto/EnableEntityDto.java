@@ -20,38 +20,27 @@ package com.broodcamp.data.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  **/
-@Getter
-@Setter
+@Data
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
 public abstract class EnableEntityDto extends AuditableEntityDto {
 
-	private boolean disabled;
+    private boolean disabled;
 
-	@JsonIgnore
-	public boolean isActive() {
-		return !disabled;
-	}
-
-	public void setActive(boolean active) {
-		setDisabled(!active);
-	}
-	
-	@Override
-    public boolean equals(Object o) {
-        return super.equals(o);
-    }
-    
-    @Override
-    public int hashCode() {
-        return super.hashCode();
+    @JsonIgnore
+    public boolean isActive() {
+        return !disabled;
     }
 
+    public void setActive(boolean active) {
+        setDisabled(!active);
+    }
 }

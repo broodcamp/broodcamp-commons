@@ -44,7 +44,7 @@ public abstract class AbstractResourceAssembler<D extends BaseEntityDto> impleme
 
         EntityModel<D> result = new EntityModel<>(entity);
         result = result.add(linkTo(methodOn(controllerClass).findById(entity.getId())).withSelfRel());
-        result = result.add(linkTo(methodOn(controllerClass).findAll(AbstractController.DEFAULT_PAGE_SIZE, 0)).withRel("entities"));
+        result = result.add(linkTo(methodOn(controllerClass).findAll(AbstractController.DEFAULT_PAGE_SIZE, 0)).withRel("all"));
 
         return result;
     }

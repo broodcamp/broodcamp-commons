@@ -31,20 +31,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public abstract class BusinessEntityDto extends EnableEntityDto {
 
-	private String code;
-	private String description;
-	/**
-	 * Use to match angular model.
-	 */
-	@SuppressWarnings("unused")
-	private String descriptionOrCode;
+    private String code;
+    private String description;
+    /**
+     * Use to match angular model.
+     */
+    @SuppressWarnings("unused")
+    private String descriptionOrCode;
 
-	public String getDescriptionOrCode() {
-		if (description == null || description.equals("")) {
-			return code;
-		}
+    public String getDescriptionOrCode() {
+        if (description == null || description.equals("")) {
+            return code;
+        }
 
-		return description;
-	}
-
+        return description;
+    }
 }
