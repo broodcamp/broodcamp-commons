@@ -140,7 +140,7 @@ public abstract class AbstractController<E extends BaseEntity, D extends BaseEnt
         E updatedEntity = repository.findById(uid).map(entity -> {
             try {
                 BeanUtilsBean bean = new NullAwareBeanUtilsBean();
-                bean.copyProperties(newEntity, entity);
+                bean.copyProperties(entity, newEntity);
 
             } catch (IllegalAccessException | InvocationTargetException e) {
                 log.warn("Update failed: {}", e.getMessage());

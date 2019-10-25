@@ -30,7 +30,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @MappedSuperclass
-public class NamedEntity extends EnableEntity {
+public abstract class NamedEntity extends EnableEntity {
 
 	private static final long serialVersionUID = -279038813396705269L;
 
