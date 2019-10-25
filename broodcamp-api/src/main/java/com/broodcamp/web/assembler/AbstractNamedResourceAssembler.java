@@ -17,38 +17,21 @@
  */
 package com.broodcamp.web.assembler;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 
-import com.broodcamp.data.dto.BusinessEntityDto;
-import com.broodcamp.web.application.AbstractBusinessController;
+import com.broodcamp.data.dto.NamedEntityDto;
+import com.broodcamp.web.application.AbstractNamedController;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
-public abstract class AbstractBusinessResourceAssembler<D extends BusinessEntityDto> extends AbstractEnableResourceAssember<D>
+public abstract class AbstractNamedResourceAssembler<D extends NamedEntityDto> extends AbstractEnableResourceAssember<D>
         implements RepresentationModelAssembler<D, EntityModel<D>> {
 
     @SuppressWarnings("rawtypes")
-    private Class<? extends AbstractBusinessController> controllerClass;
-
-    @SuppressWarnings("rawtypes")
-    public AbstractBusinessResourceAssembler(Class<? extends AbstractBusinessController> controllerClass) {
+    public AbstractNamedResourceAssembler(Class<? extends AbstractNamedController> controllerClass) {
 
         super(controllerClass);
-        this.controllerClass = controllerClass;
     }
-
-    @Override
-    public EntityModel<D> toModel(D entity) {
-
-        EntityModel<D> result = super.toModel(entity);
-        result = result.add(linkTo(methodOn(controllerClass).findByCode(entity.getCode())).withRel("code"));
-
-        return result;
-    }
-
 }

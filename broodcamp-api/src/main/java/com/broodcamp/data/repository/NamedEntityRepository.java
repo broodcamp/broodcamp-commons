@@ -15,23 +15,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.web.assembler;
+package com.broodcamp.data.repository;
 
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.server.RepresentationModelAssembler;
+import java.io.Serializable;
 
-import com.broodcamp.data.dto.EnableEntityDto;
-import com.broodcamp.web.application.AbstractEnableController;
+import org.springframework.stereotype.Repository;
+
+import com.broodcamp.data.entity.NamedEntity;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
-public abstract class AbstractEnableResourceAssember<D extends EnableEntityDto> extends AbstractAuditableResourceAssembler<D>
-        implements RepresentationModelAssembler<D, EntityModel<D>> {
+@Repository
+public interface NamedEntityRepository<T extends NamedEntity, I extends Serializable> extends EnableRepository<T, I> {
 
-    @SuppressWarnings("rawtypes")
-    public AbstractEnableResourceAssember(Class<? extends AbstractEnableController> controllerClass) {
-
-        super(controllerClass);
-    }
 }

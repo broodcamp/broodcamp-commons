@@ -31,7 +31,7 @@ import com.broodcamp.data.entity.BaseEntity;
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
 @NoRepositoryBean
-public interface BaseRepository<T extends BaseEntity, ID extends Serializable> extends JpaRepository<T, ID> {
+public interface BaseRepository<T extends BaseEntity, I extends Serializable> extends JpaRepository<T, I> {
 
 	@Override
 	<S extends T> S save(S entity);

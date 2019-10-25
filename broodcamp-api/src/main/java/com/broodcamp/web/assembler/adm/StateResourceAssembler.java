@@ -1,5 +1,5 @@
 /**
- * Broodcamp Library
+ * An Open Source Inventory and Sales Management System
  * Copyright (C) 2019 Edward P. Legaspi (https://github.com/czetsuya)
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -15,23 +15,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.web.assembler;
+package com.broodcamp.web.assembler.adm;
 
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.server.RepresentationModelAssembler;
+import org.springframework.stereotype.Component;
 
-import com.broodcamp.data.dto.EnableEntityDto;
-import com.broodcamp.web.application.AbstractEnableController;
+import com.broodcamp.business.domain.adm.StateDto;
+import com.broodcamp.web.application.adm.StateController;
+import com.broodcamp.web.assembler.AbstractNamedResourceAssembler;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
-public abstract class AbstractEnableResourceAssember<D extends EnableEntityDto> extends AbstractAuditableResourceAssembler<D>
-        implements RepresentationModelAssembler<D, EntityModel<D>> {
+@Component
+public class StateResourceAssembler extends AbstractNamedResourceAssembler<StateDto> {
 
-    @SuppressWarnings("rawtypes")
-    public AbstractEnableResourceAssember(Class<? extends AbstractEnableController> controllerClass) {
+    public StateResourceAssembler() {
 
-        super(controllerClass);
+        super(StateController.class);
     }
 }

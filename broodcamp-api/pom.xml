@@ -15,7 +15,7 @@
 	<scm>
 		<developerConnection>Edward P. Legaspi &lt;czetsuya@gmail.com&gt;</developerConnection>
 	</scm>
-	
+
 	<licenses>
 		<license>
 			<name>GNU GPL, Version 3.0</name>
@@ -23,6 +23,34 @@
 			<url>https://www.gnu.org/licenses/gpl-3.0.en.html</url>
 		</license>
 	</licenses>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.mapstruct</groupId>
+							<artifactId>mapstruct-processor</artifactId>
+							<version>1.3.1.Final</version>
+						</path>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>1.18.10</version>
+						</path>
+					</annotationProcessorPaths>
+					<compilerArgs>
+						<arg>-Amapstruct.defaultComponentModel=spring</arg>
+					</compilerArgs>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 	<dependencies>
 		<dependency>

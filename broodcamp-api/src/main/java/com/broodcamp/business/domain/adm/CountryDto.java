@@ -15,23 +15,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.web.assembler;
+package com.broodcamp.business.domain.adm;
 
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.server.RepresentationModelAssembler;
+import com.broodcamp.data.dto.NamedEntityDto;
 
-import com.broodcamp.data.dto.EnableEntityDto;
-import com.broodcamp.web.application.AbstractEnableController;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
-public abstract class AbstractEnableResourceAssember<D extends EnableEntityDto> extends AbstractAuditableResourceAssembler<D>
-        implements RepresentationModelAssembler<D, EntityModel<D>> {
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+public class CountryDto extends NamedEntityDto {
 
-    @SuppressWarnings("rawtypes")
-    public AbstractEnableResourceAssember(Class<? extends AbstractEnableController> controllerClass) {
-
-        super(controllerClass);
-    }
 }

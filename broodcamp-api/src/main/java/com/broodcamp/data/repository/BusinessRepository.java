@@ -29,7 +29,7 @@ import com.broodcamp.data.entity.BusinessEntity;
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
 @NoRepositoryBean
-public interface BusinessRepository<T extends BusinessEntity, ID extends Serializable> extends EnableRepository<T, ID> {
+public interface BusinessRepository<T extends BusinessEntity, I extends Serializable> extends EnableRepository<T, I> {
 
 	public Optional<T> findByCode(String code);
 

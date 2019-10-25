@@ -22,6 +22,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -30,8 +32,10 @@ import javax.transaction.NotSupportedException;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.beanutils.BeanUtilsBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -51,11 +55,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.broodcamp.business.exception.ResourceNotFoundException;
 import com.broodcamp.data.dto.BaseEntityDto;
-import com.broodcamp.data.dto.mapper.GenericMapper;
-import com.broodcamp.data.dto.mapper.GenericMapperService;
 import com.broodcamp.data.entity.BaseEntity;
+import com.broodcamp.data.mapper.GenericMapper;
+import com.broodcamp.data.mapper.GenericMapperService;
 import com.broodcamp.data.repository.BaseRepository;
-import com.broodcamp.util.BeanUtils;
+import com.broodcamp.data.utils.DateUtils;
+import com.broodcamp.util.NullAwareBeanUtilsBean;
 import com.broodcamp.util.ReflectionUtils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -100,9 +105,20 @@ public abstract class AbstractController<E extends BaseEntity, D extends BaseEnt
         controllerClass = IController.class;
     }
 
+    /**
+     * Binds the validator and default date format. For example, if we passed a
+     * string {@linkplain Date} with the given format it is automatically parsed.
+     * 
+     * @param binder data binder
+     * @see CustomDateEditor
+     */
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
+
         binder.setValidator(validator);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DateUtils.SDF_STRING);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
     }
 
     // @ApiOperation(value = "Create new entity" //
@@ -123,7 +139,8 @@ public abstract class AbstractController<E extends BaseEntity, D extends BaseEnt
 
         E updatedEntity = repository.findById(uid).map(entity -> {
             try {
-                BeanUtils.copyProperties(newEntity, entity);
+                BeanUtilsBean bean = new NullAwareBeanUtilsBean();
+                bean.copyProperties(newEntity, entity);
 
             } catch (IllegalAccessException | InvocationTargetException e) {
                 log.warn("Update failed: {}", e.getMessage());

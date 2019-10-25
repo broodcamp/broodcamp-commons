@@ -18,44 +18,18 @@
 package com.broodcamp.data.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  **/
-@Getter
-@Setter
+@Data
+@EqualsAndHashCode(callSuper = false, of = { "name" })
 @AllArgsConstructor
 @NoArgsConstructor
 public abstract class NamedEntityDto extends EnableEntityDto {
 
     private String name;
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        NamedEntityDto other = (NamedEntityDto) obj;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        return true;
-    }
-
 }

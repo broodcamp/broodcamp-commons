@@ -27,6 +27,6 @@ import com.broodcamp.data.entity.AuditableEntity;
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
 @NoRepositoryBean
-public interface AuditableRepository<T extends AuditableEntity, ID extends Serializable> extends BaseRepository<T, ID> {
+public interface AuditableRepository<T extends AuditableEntity, I extends Serializable> extends BaseRepository<T, I> {
 
 }

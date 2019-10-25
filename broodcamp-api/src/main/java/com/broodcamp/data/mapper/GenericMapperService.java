@@ -1,4 +1,4 @@
-package com.broodcamp.data.dto.mapper;
+package com.broodcamp.data.mapper;
 
 import java.util.Collection;
 import java.util.HashMap;
