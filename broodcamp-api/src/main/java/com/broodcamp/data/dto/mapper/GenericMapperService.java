@@ -7,9 +7,12 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.GenericTypeResolver;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.ApplicationScope;
 
 /**
  * This service initialize and keeps track of all the generic mappers during
@@ -18,7 +21,9 @@ import org.springframework.stereotype.Component;
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
 @SuppressWarnings("rawtypes")
+@ApplicationScope
 @Component
+@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class GenericMapperService<S, T> {
 
     private Map<String, GenericMapper<S, T>> mapperInfos = new HashMap<>();
