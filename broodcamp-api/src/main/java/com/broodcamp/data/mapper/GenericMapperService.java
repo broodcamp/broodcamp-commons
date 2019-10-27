@@ -8,10 +8,11 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.GenericTypeResolver;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.ApplicationScope;
 
 /**
@@ -21,8 +22,8 @@ import org.springframework.web.context.annotation.ApplicationScope;
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
 @SuppressWarnings("rawtypes")
+@Service
 @ApplicationScope
-@Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class GenericMapperService<S, T> {
 
@@ -88,6 +89,7 @@ public class GenericMapperService<S, T> {
      * @param targetType the target object
      * @return the mapper for the source and target object
      */
+    @Cacheable(value = "genericMappers")
     public GenericMapper<S, T> getMapper(Class<S> sourceType, Class<T> targetType) {
 
         String mapperKey = sourceType.getSimpleName() + "_" + targetType.getSimpleName();
