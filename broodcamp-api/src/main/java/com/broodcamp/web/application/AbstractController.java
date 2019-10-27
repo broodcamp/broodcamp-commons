@@ -74,13 +74,13 @@ public abstract class AbstractController<E extends BaseEntity, D extends BaseEnt
     public static final int DEFAULT_PAGE_SIZE = 10;
 
     @Autowired
-    protected GenericMapperService<E, D> genericMapperService;
-
-    @Autowired
     protected @Qualifier("validator") Validator validator;
 
     @Autowired
     protected MessageSource messageSource;
+
+    @Autowired
+    protected GenericMapperService<E, D> genericMapperService;
 
     @Autowired
     protected BaseRepository<E, I> repository;
@@ -121,7 +121,7 @@ public abstract class AbstractController<E extends BaseEntity, D extends BaseEnt
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
     }
 
-    public Pageable initPage(Integer size, Integer page) {
+    protected Pageable initPage(Integer size, Integer page) {
 
         if (size == null) {
             size = DEFAULT_PAGE_SIZE;
@@ -239,5 +239,4 @@ public abstract class AbstractController<E extends BaseEntity, D extends BaseEnt
 
         return new ResourceNotFoundException(entityClass.getSimpleName(), id);
     }
-
 }
