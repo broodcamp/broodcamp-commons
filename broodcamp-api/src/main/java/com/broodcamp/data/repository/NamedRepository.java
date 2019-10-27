@@ -18,6 +18,7 @@
 package com.broodcamp.data.repository;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 import org.springframework.data.repository.NoRepositoryBean;
 
@@ -29,4 +30,5 @@ import com.broodcamp.data.entity.NamedEntity;
 @NoRepositoryBean
 public interface NamedRepository<T extends NamedEntity, I extends Serializable> extends EnableRepository<T, I> {
 
+    public Optional<T> findByName(String name);
 }

@@ -1,5 +1,5 @@
 /**
- * An Open Source Inventory and Sales Management System
+ * Broodcamp Library
  * Copyright (C) 2019 Edward P. Legaspi (https://github.com/czetsuya)
  * 
  * This program is free software: you can redistribute it and/or modify

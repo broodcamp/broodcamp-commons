@@ -17,6 +17,7 @@
  */
 package com.broodcamp.data.repository.adm;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Repository;
@@ -30,4 +31,5 @@ import com.broodcamp.data.repository.NamedRepository;
 @Repository
 public interface CountryRepository extends NamedRepository<Country, UUID> {
 
+    public Optional<Country> findByCode(String code);
 }
