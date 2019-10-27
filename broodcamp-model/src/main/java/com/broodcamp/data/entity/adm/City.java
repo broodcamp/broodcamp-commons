@@ -69,7 +69,7 @@ public class City extends NamedEntity {
 
 	public String getStateAndCity() {
 		if (state != null) {
-			return getName() + "," + state.getName();
+			return getName() + ", " + state.getName();
 		}
 
 		return getName();
