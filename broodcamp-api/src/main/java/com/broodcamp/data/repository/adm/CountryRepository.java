@@ -22,12 +22,12 @@ import java.util.UUID;
 import org.springframework.stereotype.Repository;
 
 import com.broodcamp.data.entity.adm.Country;
-import com.broodcamp.data.repository.NamedEntityRepository;
+import com.broodcamp.data.repository.NamedRepository;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
 @Repository
-public interface CountryRepository extends NamedEntityRepository<Country, UUID> {
+public interface CountryRepository extends NamedRepository<Country, UUID> {
 
 }

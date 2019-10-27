@@ -27,6 +27,6 @@ import com.broodcamp.data.entity.NamedEntity;
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
 @NoRepositoryBean
-public interface NamedEntityRepository<T extends NamedEntity, I extends Serializable> extends EnableRepository<T, I> {
+public interface NamedRepository<T extends NamedEntity, I extends Serializable> extends EnableRepository<T, I> {
 
 }
