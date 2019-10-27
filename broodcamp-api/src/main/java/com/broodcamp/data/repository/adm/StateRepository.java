@@ -17,8 +17,10 @@
  */
 package com.broodcamp.data.repository.adm;
 
+import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.broodcamp.data.entity.adm.State;
@@ -30,4 +32,9 @@ import com.broodcamp.data.repository.NamedRepository;
 @Repository
 public interface StateRepository extends NamedRepository<State, UUID> {
 
+    List<State> findByCountryCode(String countryCode, Pageable pageable);
+
+    List<State> findByRegionId(UUID regionId, Pageable pageable);
+
+    List<State> findByCountryId(UUID countryId, Pageable pageable);
 }

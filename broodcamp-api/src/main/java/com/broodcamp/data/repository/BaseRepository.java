@@ -51,5 +51,4 @@ public interface BaseRepository<T extends BaseEntity, I extends Serializable> ex
 	List<T> refreshOrRetrieve(List<T> entities);
 
 	Set<T> refreshOrRetrieve(Set<T> entities);
-
 }

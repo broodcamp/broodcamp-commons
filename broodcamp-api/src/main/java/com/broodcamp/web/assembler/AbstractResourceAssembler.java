@@ -20,6 +20,8 @@ package com.broodcamp.web.assembler;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import javax.transaction.NotSupportedException;
+
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 
@@ -43,8 +45,13 @@ public abstract class AbstractResourceAssembler<D extends BaseEntityDto> impleme
     public EntityModel<D> toModel(D entity) {
 
         EntityModel<D> result = new EntityModel<>(entity);
-        result = result.add(linkTo(methodOn(controllerClass).findById(entity.getId())).withSelfRel());
-        result = result.add(linkTo(methodOn(controllerClass).findAll(AbstractController.DEFAULT_PAGE_SIZE, 0)).withRel("all"));
+        try {
+            result = result.add(linkTo(methodOn(controllerClass).findById(entity.getId())).withSelfRel());
+            result = result.add(linkTo(methodOn(controllerClass).findAll(AbstractController.DEFAULT_PAGE_SIZE, 0)).withRel("all"));
+
+        } catch (NotSupportedException e) {
+
+        }
 
         return result;
     }

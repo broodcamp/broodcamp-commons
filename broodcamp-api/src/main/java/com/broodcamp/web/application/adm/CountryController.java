@@ -32,7 +32,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.broodcamp.business.domain.adm.CountryDto;
 import com.broodcamp.data.entity.adm.Country;
-import com.broodcamp.data.mapper.GenericMapper;
 import com.broodcamp.data.repository.adm.CountryRepository;
 import com.broodcamp.web.application.AbstractNamedController;
 
@@ -47,11 +46,8 @@ public class CountryController extends AbstractNamedController<Country, CountryD
     @Autowired
     protected CountryRepository countryRepository;
 
-    @Autowired
-    protected GenericMapper<Country, CountryDto> genericMapper;
-
     @GetMapping(path = "/code/{code}")
-    public EntityModel<CountryDto> findByCode(@PathVariable @Size(min = 2, max = 50) /* @ApiParam(value = "entity code", required = true) */ String code) {
+    public EntityModel<CountryDto> findByCode(@PathVariable @Size(min = 2, max = 50) String code) {
 
         Country entity = countryRepository.findByCode(code).orElseThrow(() -> createNewResourceNotFoundException(code));
 

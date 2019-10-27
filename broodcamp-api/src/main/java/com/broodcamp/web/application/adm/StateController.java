@@ -17,15 +17,27 @@
  */
 package com.broodcamp.web.application.adm;
 
-import java.util.UUID;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.broodcamp.business.domain.adm.StateDto;
 import com.broodcamp.data.entity.adm.State;
+import com.broodcamp.data.repository.adm.StateRepository;
 import com.broodcamp.web.application.AbstractNamedController;
 
 /**
@@ -36,4 +48,30 @@ import com.broodcamp.web.application.AbstractNamedController;
 @Validated
 public class StateController extends AbstractNamedController<State, StateDto, UUID> {
 
+    @Autowired
+    private StateRepository stateRepository;
+
+    @GetMapping(path = "/country/{countryId}")
+    public CollectionModel<EntityModel<StateDto>> findByCountryId(@PathVariable UUID countryId, Integer size, Integer page) {
+
+        Pageable pageable = initPage(page, size);
+        
+        List<State> states = stateRepository.findByCountryId(countryId, pageable);
+
+        List<EntityModel<StateDto>> entities = states.stream().map(e -> modelAssembler.toModel(genericMapper.toDto(e))).collect(Collectors.toList());
+
+        return new CollectionModel<>(entities, linkTo(methodOn(StateController.class).findByCountryId(countryId, size, page)).withSelfRel());
+    }
+
+    @GetMapping(path = "/region/{regionId}")
+    public CollectionModel<EntityModel<StateDto>> findByRegionId(@PathVariable UUID regionId, Integer size, Integer page) {
+
+        Pageable pageable = initPage(page, size);
+        
+        List<State> states = stateRepository.findByRegionId(regionId, pageable);
+
+        List<EntityModel<StateDto>> entities = states.stream().map(e -> modelAssembler.toModel(genericMapper.toDto(e))).collect(Collectors.toList());
+
+        return new CollectionModel<>(entities, linkTo(methodOn(StateController.class).findByRegionId(regionId, size, page)).withSelfRel());
+    }
 }

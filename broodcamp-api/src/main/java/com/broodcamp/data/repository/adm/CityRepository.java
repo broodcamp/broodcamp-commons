@@ -17,8 +17,10 @@
  */
 package com.broodcamp.data.repository.adm;
 
+import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.broodcamp.data.entity.adm.City;
@@ -30,4 +32,5 @@ import com.broodcamp.data.repository.NamedRepository;
 @Repository
 public interface CityRepository extends NamedRepository<City, UUID> {
 
+    List<City> findByStateId(UUID stateId, Pageable pageable);
 }

@@ -121,6 +121,18 @@ public abstract class AbstractController<E extends BaseEntity, D extends BaseEnt
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
     }
 
+    public Pageable initPage(Integer size, Integer page) {
+
+        if (size == null) {
+            size = DEFAULT_PAGE_SIZE;
+        }
+        if (page == null) {
+            page = 0;
+        }
+
+        return PageRequest.of(page, size);
+    }
+
     // @ApiOperation(value = "Create new entity" //
     // , notes = "Creates new entity. Returns the created entity with uid.")
     @PostMapping
@@ -133,7 +145,7 @@ public abstract class AbstractController<E extends BaseEntity, D extends BaseEnt
     }
 
     @PutMapping(path = "/{uid}")
-    public ResponseEntity<D> update(@RequestBody D newDto, @PathVariable /* @ApiParam(value = "entity uid", required = true) */ I uid) {
+    public ResponseEntity<D> update(@RequestBody D newDto, @PathVariable /* @ApiParam(value = "entity uid", required = true) */ I uid) throws NotSupportedException {
 
         E newEntity = genericMapper.toModel(newDto);
 
@@ -178,7 +190,7 @@ public abstract class AbstractController<E extends BaseEntity, D extends BaseEnt
      */
     @SuppressWarnings("unchecked")
     @GetMapping(path = "/{uid}")
-    public EntityModel<D> findById(@PathVariable /* @ApiParam(value = "entity identifier", required = true) */ UUID uid) {
+    public EntityModel<D> findById(@PathVariable /* @ApiParam(value = "entity identifier", required = true) */ UUID uid) throws NotSupportedException {
 
         E entity = repository.findById((I) uid).orElseThrow(() -> createNewResourceNotFoundException(uid));
 
@@ -196,7 +208,7 @@ public abstract class AbstractController<E extends BaseEntity, D extends BaseEnt
             , /*
                * @ApiParam(value = "Zero-based page index", defaultValue =
                * "0") @RequestParam(required = false)
-               */ Integer page) {
+               */ Integer page) throws NotSupportedException {
 
         if (size == null) {
             size = DEFAULT_PAGE_SIZE;
@@ -216,7 +228,7 @@ public abstract class AbstractController<E extends BaseEntity, D extends BaseEnt
     // @ApiOperation(value = "Delete entity" //
     // , notes = "Deletes an entity for uid specified. No content is returned.")
     @DeleteMapping(path = "/{uid}")
-    public ResponseEntity<E> delete(@PathVariable /* @ApiParam(value = "entity uid", required = true) */ I uid) {
+    public ResponseEntity<D> delete(@PathVariable /* @ApiParam(value = "entity uid", required = true) */ I uid) throws NotSupportedException {
 
         repository.deleteById(uid);
 

@@ -28,7 +28,8 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 public class CountryDto extends NamedEntityDto {
 
+    private String code;
 }

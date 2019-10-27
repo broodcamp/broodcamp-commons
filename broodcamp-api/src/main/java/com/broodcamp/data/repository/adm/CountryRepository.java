@@ -31,5 +31,5 @@ import com.broodcamp.data.repository.NamedRepository;
 @Repository
 public interface CountryRepository extends NamedRepository<Country, UUID> {
 
-    public Optional<Country> findByCode(String code);
+    Optional<Country> findByCode(String code);
 }
