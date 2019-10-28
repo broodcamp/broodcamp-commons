@@ -19,6 +19,8 @@ package com.broodcamp.data.dto;
 
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,8 +33,9 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @NoArgsConstructor
+@Valid
 public abstract class BaseEntityDto extends BaseDto {
 
-	private UUID id;
+    private UUID id;
 
 }

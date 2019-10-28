@@ -19,13 +19,20 @@ package com.broodcamp.web.application;
 
 import java.io.Serializable;
 
+import javax.transaction.NotSupportedException;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import com.broodcamp.business.exception.ResourceAlreadyExistsException;
 import com.broodcamp.data.dto.BusinessEntityDto;
 import com.broodcamp.data.entity.BusinessEntity;
 import com.broodcamp.data.repository.BusinessRepository;
@@ -50,5 +57,16 @@ public abstract class AbstractBusinessController<E extends BusinessEntity, D ext
         E entity = businessRepository.findByCode(code).orElseThrow(() -> createNewResourceNotFoundException(code));
 
         return modelAssembler.toModel(genericMapper.toDto(entity));
+    }
+
+    @Override
+    @PostMapping
+    public ResponseEntity<EntityModel<D>> create(@RequestBody @NotNull @Valid D dto) throws NotSupportedException {
+
+        if (businessRepository.findByCode(dto.getCode()).isPresent()) {
+            throw new ResourceAlreadyExistsException(entityClass, dto.getCode());
+        }
+
+        return super.create(dto);
     }
 }

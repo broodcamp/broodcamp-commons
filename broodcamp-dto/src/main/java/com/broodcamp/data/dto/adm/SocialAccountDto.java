@@ -15,12 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.data.entity.adm;
-
-import javax.persistence.Cacheable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+package com.broodcamp.data.dto.adm;
 
 import com.broodcamp.data.entity.BaseEntity;
 
@@ -31,37 +26,19 @@ import lombok.EqualsAndHashCode;
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  **/
-@Entity
-@Cacheable
-@Table(name = "adm_social_account")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
-public class SocialAccount extends BaseEntity {
+public class SocialAccountDto extends BaseEntity {
 
     private static final long serialVersionUID = -6868804229424530068L;
 
-    @Column(name = "facebook", length = 250)
     private String facebook;
-
-    @Column(name = "instagram", length = 250)
     private String instagram;
-
-    @Column(name = "pinterest", length = 250)
     private String pinterest;
-
-    @Column(name = "google", length = 250)
     private String google;
-
-    @Column(name = "youtube", length = 250)
     private String youtube;
-
-    @Column(name = "twitter", length = 250)
     private String twitter;
-
-    @Column(name = "website", length = 250)
     private String website;
-
-    @Column(name = "blog", length = 250)
     private String blog;
 }

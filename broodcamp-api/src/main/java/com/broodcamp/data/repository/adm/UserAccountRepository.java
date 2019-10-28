@@ -15,40 +15,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.data.dto;
+package com.broodcamp.data.repository.adm;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import java.util.UUID;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Repository;
+
+import com.broodcamp.data.entity.adm.UserAccount;
+import com.broodcamp.data.repository.EnableRepository;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
- **/
-@Data
-@EqualsAndHashCode(callSuper = false, of = { "code" })
-@AllArgsConstructor
-@NoArgsConstructor
-public abstract class BusinessEntityDto extends EnableEntityDto {
+ */
+@Repository
+public interface UserAccountRepository extends EnableRepository<UserAccount, UUID> {
 
-    @NotNull
-    @Size(min = 2, max = 255)
-    private String code;
-    private String description;
-    /**
-     * Use to match angular model.
-     */
-    @SuppressWarnings("unused")
-    private String descriptionOrCode;
-
-    public String getDescriptionOrCode() {
-        if (description == null || description.equals("")) {
-            return code;
-        }
-
-        return description;
-    }
 }

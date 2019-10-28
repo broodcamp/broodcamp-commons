@@ -15,12 +15,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.data.dto;
+package com.broodcamp.data.dto.shared;
 
-import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.UUID;
+
+import javax.persistence.Embeddable;
 import javax.validation.constraints.Size;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -28,27 +30,27 @@ import lombok.NoArgsConstructor;
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  **/
+@Embeddable
 @Data
-@EqualsAndHashCode(callSuper = false, of = { "code" })
-@AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
-public abstract class BusinessEntityDto extends EnableEntityDto {
+public class AddressDto implements Serializable, Cloneable {
 
-    @NotNull
-    @Size(min = 2, max = 255)
-    private String code;
-    private String description;
-    /**
-     * Use to match angular model.
-     */
-    @SuppressWarnings("unused")
-    private String descriptionOrCode;
+    private static final long serialVersionUID = 7324969542509922787L;
 
-    public String getDescriptionOrCode() {
-        if (description == null || description.equals("")) {
-            return code;
-        }
+    @Size(max = 80)
+    protected String address1;
 
-        return description;
-    }
+    @Size(max = 80)
+    protected String address2;
+
+    @Size(max = 80)
+    protected String address3;
+
+    @Size(max = 10)
+    protected String zipCode;
+
+    private UUID countryId;
+    private UUID stateId;
+    private UUID cityId;
 }

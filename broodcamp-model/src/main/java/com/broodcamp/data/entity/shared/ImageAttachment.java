@@ -22,10 +22,17 @@ import javax.persistence.Embeddable;
 import javax.persistence.Lob;
 import javax.persistence.Transient;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
 @Embeddable
+@Data
+@EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor
 public class ImageAttachment {
 
     @Column(name = "filename")
@@ -37,30 +44,6 @@ public class ImageAttachment {
 
     @Column(name = "prefix", length = 50)
     private String prefix;
-
-    public String getFilename() {
-        return filename;
-    }
-
-    public void setFilename(String filename) {
-        this.filename = filename;
-    }
-
-    public byte[] getAttachment() {
-        return attachment;
-    }
-
-    public void setAttachment(byte[] attachment) {
-        this.attachment = attachment;
-    }
-
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
-    }
 
     @Transient
     public String getContentType() {

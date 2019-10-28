@@ -15,40 +15,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.data.dto;
+package com.broodcamp.business.exception;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import org.springframework.boot.context.properties.source.InvalidConfigurationPropertyValueException;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
- **/
-@Data
-@EqualsAndHashCode(callSuper = false, of = { "code" })
-@AllArgsConstructor
-@NoArgsConstructor
-public abstract class BusinessEntityDto extends EnableEntityDto {
+ */
+@ResponseStatus(value = HttpStatus.FOUND)
+public class ResourceAlreadyExistsException extends InvalidConfigurationPropertyValueException {
 
-    @NotNull
-    @Size(min = 2, max = 255)
-    private String code;
-    private String description;
-    /**
-     * Use to match angular model.
-     */
-    @SuppressWarnings("unused")
-    private String descriptionOrCode;
+    private static final long serialVersionUID = 7236295209124886220L;
+    private static final String REASON = "found";
 
-    public String getDescriptionOrCode() {
-        if (description == null || description.equals("")) {
-            return code;
-        }
+    public ResourceAlreadyExistsException(String className, String fieldName, String value) {
 
-        return description;
+        super(className + "." + fieldName, value, REASON);
+    }
+
+    public ResourceAlreadyExistsException(Class<?> entityClass, String value) {
+
+        this(entityClass.getSimpleName(), "code", value);
     }
 }

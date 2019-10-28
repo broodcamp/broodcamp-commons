@@ -15,40 +15,34 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.data.dto;
+package com.broodcamp.data.dto.shared;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import java.io.Serializable;
 
-import lombok.AllArgsConstructor;
+import javax.persistence.Embeddable;
+import javax.persistence.Transient;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
- **/
+ */
+@Embeddable
 @Data
-@EqualsAndHashCode(callSuper = false, of = { "code" })
-@AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
-public abstract class BusinessEntityDto extends EnableEntityDto {
+public class ImageAttachmentDto implements Serializable {
 
-    @NotNull
-    @Size(min = 2, max = 255)
-    private String code;
-    private String description;
-    /**
-     * Use to match angular model.
-     */
-    @SuppressWarnings("unused")
-    private String descriptionOrCode;
+    private static final long serialVersionUID = -459371026063434553L;
 
-    public String getDescriptionOrCode() {
-        if (description == null || description.equals("")) {
-            return code;
-        }
+    private String filename;
+    private byte[] attachment;
+    private String prefix;
 
-        return description;
+    @Transient
+    public String getContentType() {
+        return prefix.substring(prefix.indexOf(":") + 1, prefix.lastIndexOf(";"));
     }
 }
