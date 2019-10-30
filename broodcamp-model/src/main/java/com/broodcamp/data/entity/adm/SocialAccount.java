@@ -27,6 +27,7 @@ import com.broodcamp.data.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
@@ -37,6 +38,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
+@NoArgsConstructor
 public class SocialAccount extends BaseEntity {
 
     private static final long serialVersionUID = -6868804229424530068L;

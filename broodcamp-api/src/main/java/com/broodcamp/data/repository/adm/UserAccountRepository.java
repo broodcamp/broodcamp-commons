@@ -22,12 +22,12 @@ import java.util.UUID;
 import org.springframework.stereotype.Repository;
 
 import com.broodcamp.data.entity.adm.UserAccount;
-import com.broodcamp.data.repository.EnableRepository;
+import com.broodcamp.data.repository.BaseRepository;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
 @Repository
-public interface UserAccountRepository extends EnableRepository<UserAccount, UUID> {
+public interface UserAccountRepository extends BaseRepository<UserAccount, UUID> {
 
 }

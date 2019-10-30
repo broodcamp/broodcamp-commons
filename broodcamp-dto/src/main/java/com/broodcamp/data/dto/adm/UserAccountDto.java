@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
+import com.broodcamp.data.dto.BaseEntityDto;
 import com.broodcamp.data.dto.shared.ContactInformationDto;
 import com.broodcamp.data.dto.shared.NameDto;
 
@@ -18,7 +19,9 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = false, of = { "username" })
 @NoArgsConstructor
-public class UserAccountDto implements Serializable {
+public class UserAccountDto extends BaseEntityDto implements Serializable {
+
+    private static final long serialVersionUID = -145690419565926323L;
 
     @NotNull
     private String externalReference;
@@ -26,7 +29,9 @@ public class UserAccountDto implements Serializable {
     @NotNull
     private String username;
 
+    @NotNull
     private NameDto name;
+
     private ContactInformationDto contactInformation;
     private SocialAccountDto socialAccount;
     private String profileImageFile;

@@ -1,5 +1,5 @@
 /**
- * Broodcamp Library
+ * An Open Source Inventory and Sales Management System
  * Copyright (C) 2019 Edward P. Legaspi (https://github.com/czetsuya)
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -15,32 +15,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.data.dto.adm;
+package com.broodcamp.data.mapper.adm;
 
-import com.broodcamp.data.entity.BaseEntity;
+import org.mapstruct.Mapper;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import com.broodcamp.data.dto.adm.UserAccountDto;
+import com.broodcamp.data.entity.adm.UserAccount;
+import com.broodcamp.data.mapper.GenericMapper;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
- **/
-@Data
-@EqualsAndHashCode(callSuper = false)
-@AllArgsConstructor
-@NoArgsConstructor
-public class SocialAccountDto extends BaseEntity {
+ */
+@Mapper
+public abstract class UserAccountMapper implements GenericMapper<UserAccount, UserAccountDto> {
 
-    private static final long serialVersionUID = -6868804229424530068L;
-
-    private String facebook;
-    private String instagram;
-    private String pinterest;
-    private String google;
-    private String youtube;
-    private String twitter;
-    private String website;
-    private String blog;
 }

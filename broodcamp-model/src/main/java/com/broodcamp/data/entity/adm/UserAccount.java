@@ -32,13 +32,14 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
-import com.broodcamp.data.entity.EnableEntity;
+import com.broodcamp.data.entity.BaseEntity;
 import com.broodcamp.data.entity.shared.ContactInformation;
 import com.broodcamp.data.entity.shared.Name;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
@@ -49,7 +50,8 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
-public class UserAccount extends EnableEntity {
+@NoArgsConstructor
+public class UserAccount extends BaseEntity {
 
     private static final long serialVersionUID = -234791854519231738L;
 
