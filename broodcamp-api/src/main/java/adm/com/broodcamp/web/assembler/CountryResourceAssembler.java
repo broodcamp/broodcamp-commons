@@ -15,32 +15,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.data.dto.adm;
+package adm.com.broodcamp.web.assembler;
 
-import com.broodcamp.data.entity.BaseEntity;
+import org.springframework.stereotype.Component;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import com.broodcamp.web.assembler.AbstractNamedResourceAssembler;
+
+import adm.com.broodcamp.business.domain.CountryDto;
+import adm.com.broodcamp.web.application.CountryController;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
- **/
-@Data
-@EqualsAndHashCode(callSuper = false)
-@AllArgsConstructor
-@NoArgsConstructor
-public class SocialAccountDto extends BaseEntity {
+ */
+@Component
+public class CountryResourceAssembler extends AbstractNamedResourceAssembler<CountryDto> {
 
-    private static final long serialVersionUID = -6868804229424530068L;
+    public CountryResourceAssembler() {
 
-    private String facebook;
-    private String instagram;
-    private String pinterest;
-    private String google;
-    private String youtube;
-    private String twitter;
-    private String website;
-    private String blog;
+        super(CountryController.class);
+    }
+
 }

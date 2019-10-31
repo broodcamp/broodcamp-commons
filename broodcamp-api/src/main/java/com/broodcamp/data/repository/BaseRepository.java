@@ -15,21 +15,40 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.business.service;
+package com.broodcamp.data.repository;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
-import com.broodcamp.data.entity.AuditableEntity;
-import com.broodcamp.data.repository.AuditableRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.NoRepositoryBean;
+
+import com.broodcamp.data.entity.BaseEntity;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
-public abstract class AbstractAuditableService<E extends AuditableEntity, ID extends Serializable> extends AbstractBaseService<E, ID> {
+@NoRepositoryBean
+public interface BaseRepository<T extends BaseEntity, I extends Serializable> extends JpaRepository<T, I> {
 
-	public AbstractAuditableService(AuditableRepository<E, ID> repository) {
+	@Override
+	<S extends T> S save(S entity);
 
-		super(repository);
-	}
+	void detach(T entity);
 
+	void refresh(T entity);
+
+	Optional<T> retrieveIfNotManaged(T entity);
+
+	List<T> retrieveIfNotManaged(List<T> entities);
+
+	Set<T> retrieveIfNotManaged(Set<T> entities);
+
+	Optional<T> refreshOrRetrieve(T entity);
+
+	List<T> refreshOrRetrieve(List<T> entities);
+
+	Set<T> refreshOrRetrieve(Set<T> entities);
 }

@@ -34,8 +34,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.broodcamp.business.exception.ResourceAlreadyExistsException;
 import com.broodcamp.data.dto.BusinessEntityDto;
-import com.broodcamp.data.entity.base.BusinessEntity;
-import com.broodcamp.data.repository.base.BusinessRepository;
+import com.broodcamp.data.entity.BusinessEntity;
+import com.broodcamp.data.repository.BusinessRepository;
 
 import lombok.NoArgsConstructor;
 

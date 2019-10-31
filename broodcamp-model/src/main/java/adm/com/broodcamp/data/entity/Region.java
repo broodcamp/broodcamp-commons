@@ -15,9 +15,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.data.dto.adm;
+package adm.com.broodcamp.data.entity;
 
-import com.broodcamp.data.entity.BaseEntity;
+import javax.persistence.Cacheable;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
+import com.broodcamp.data.entity.NamedEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,20 +35,20 @@ import lombok.NoArgsConstructor;
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  **/
+@Entity
+@Cacheable
+@Table(name = "adm_region", uniqueConstraints = @UniqueConstraint(columnNames = { "country_id", "name" }))
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = false, of = { "country" })
 @AllArgsConstructor
 @NoArgsConstructor
-public class SocialAccountDto extends BaseEntity {
+//@ApiModel
+public class Region extends NamedEntity {
 
-    private static final long serialVersionUID = -6868804229424530068L;
+    private static final long serialVersionUID = -5624009746303674978L;
 
-    private String facebook;
-    private String instagram;
-    private String pinterest;
-    private String google;
-    private String youtube;
-    private String twitter;
-    private String website;
-    private String blog;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "country_id", nullable = false)
+    private Country country;
+
 }

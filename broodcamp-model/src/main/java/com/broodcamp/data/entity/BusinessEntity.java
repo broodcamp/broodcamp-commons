@@ -15,32 +15,35 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.data.dto.adm;
+package com.broodcamp.data.entity;
 
-import com.broodcamp.data.entity.BaseEntity;
+import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
- **/
+ */
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class SocialAccountDto extends BaseEntity {
+@MappedSuperclass
+@ToString(callSuper = true)
+public abstract class BusinessEntity extends EnableEntity {
 
-    private static final long serialVersionUID = -6868804229424530068L;
+	private static final long serialVersionUID = 6694541298135798276L;
 
-    private String facebook;
-    private String instagram;
-    private String pinterest;
-    private String google;
-    private String youtube;
-    private String twitter;
-    private String website;
-    private String blog;
+	@NotEmpty(message = "{businessEntity.notEmpty}")
+	@Size(min = 2, max = 50)
+	private String code;
+
+	private String description;
+
 }

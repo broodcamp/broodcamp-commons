@@ -19,8 +19,8 @@ package com.broodcamp.business.service;
 
 import java.io.Serializable;
 
-import com.broodcamp.data.entity.base.BusinessEntity;
-import com.broodcamp.data.repository.base.BusinessRepository;
+import com.broodcamp.data.entity.BusinessEntity;
+import com.broodcamp.data.repository.BusinessRepository;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com

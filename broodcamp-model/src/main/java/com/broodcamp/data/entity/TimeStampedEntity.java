@@ -15,32 +15,36 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.data.dto.adm;
+package com.broodcamp.data.entity;
 
-import com.broodcamp.data.entity.BaseEntity;
+import java.util.Date;
 
-import lombok.AllArgsConstructor;
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
- **/
+ */
+@MappedSuperclass
 @Data
-@EqualsAndHashCode(callSuper = false)
-@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class SocialAccountDto extends BaseEntity {
+public abstract class TimeStampedEntity extends BaseEntity implements ITimeStamped {
 
-    private static final long serialVersionUID = -6868804229424530068L;
+	private static final long serialVersionUID = -5924087120126331665L;
 
-    private String facebook;
-    private String instagram;
-    private String pinterest;
-    private String google;
-    private String youtube;
-    private String twitter;
-    private String website;
-    private String blog;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "created", nullable = false, updatable = false)
+	private Date created;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "updated")
+	private Date updated;
+
 }

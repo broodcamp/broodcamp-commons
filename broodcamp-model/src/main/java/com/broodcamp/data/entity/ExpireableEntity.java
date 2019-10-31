@@ -15,32 +15,41 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.data.dto.adm;
+package com.broodcamp.data.entity;
 
-import com.broodcamp.data.entity.BaseEntity;
+import java.util.Date;
 
-import lombok.AllArgsConstructor;
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
- **/
+ */
+@MappedSuperclass
 @Data
-@EqualsAndHashCode(callSuper = false)
-@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class SocialAccountDto extends BaseEntity {
+@ToString(callSuper = true)
+public abstract class ExpireableEntity extends EnableEntity implements IExpireable {
 
-    private static final long serialVersionUID = -6868804229424530068L;
+    private static final long serialVersionUID = -6013235853578652704L;
 
-    private String facebook;
-    private String instagram;
-    private String pinterest;
-    private String google;
-    private String youtube;
-    private String twitter;
-    private String website;
-    private String blog;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "subscription_start_date", nullable = false)
+    private Date subscriptionStartDate;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "subscription_end_date", nullable = false)
+    private Date subscriptionEndDate;
+
+    public boolean isExpired() {
+        return subscriptionEndDate.after(new Date()) ? true : false;
+    }
 }

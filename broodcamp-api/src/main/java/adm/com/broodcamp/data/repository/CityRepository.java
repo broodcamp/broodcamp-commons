@@ -15,32 +15,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.data.dto.adm;
+package adm.com.broodcamp.data.repository;
 
-import com.broodcamp.data.entity.BaseEntity;
+import java.util.List;
+import java.util.UUID;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
+
+import com.broodcamp.data.repository.NamedRepository;
+
+import adm.com.broodcamp.data.entity.City;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
- **/
-@Data
-@EqualsAndHashCode(callSuper = false)
-@AllArgsConstructor
-@NoArgsConstructor
-public class SocialAccountDto extends BaseEntity {
+ */
+@Repository
+public interface CityRepository extends NamedRepository<City, UUID> {
 
-    private static final long serialVersionUID = -6868804229424530068L;
-
-    private String facebook;
-    private String instagram;
-    private String pinterest;
-    private String google;
-    private String youtube;
-    private String twitter;
-    private String website;
-    private String blog;
+    List<City> findByStateId(UUID stateId, Pageable pageable);
 }

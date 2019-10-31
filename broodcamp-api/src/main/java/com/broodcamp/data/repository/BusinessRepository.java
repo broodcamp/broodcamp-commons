@@ -15,32 +15,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.data.dto.adm;
+package com.broodcamp.data.repository;
 
-import com.broodcamp.data.entity.BaseEntity;
+import java.io.Serializable;
+import java.util.Optional;
+import java.util.UUID;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import org.springframework.data.repository.NoRepositoryBean;
+
+import com.broodcamp.data.entity.BusinessEntity;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
- **/
-@Data
-@EqualsAndHashCode(callSuper = false)
-@AllArgsConstructor
-@NoArgsConstructor
-public class SocialAccountDto extends BaseEntity {
+ */
+@NoRepositoryBean
+public interface BusinessRepository<T extends BusinessEntity, I extends Serializable> extends EnableRepository<T, I> {
 
-    private static final long serialVersionUID = -6868804229424530068L;
+	Optional<T> findByCode(String code);
 
-    private String facebook;
-    private String instagram;
-    private String pinterest;
-    private String google;
-    private String youtube;
-    private String twitter;
-    private String website;
-    private String blog;
+	Optional<T> findByIdOrCode(UUID id, String code);
 }

@@ -26,10 +26,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Size;
 
-import com.broodcamp.data.entity.adm.City;
-import com.broodcamp.data.entity.adm.Country;
-import com.broodcamp.data.entity.adm.State;
-
+import adm.com.broodcamp.data.entity.City;
+import adm.com.broodcamp.data.entity.Country;
+import adm.com.broodcamp.data.entity.State;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

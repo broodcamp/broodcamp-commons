@@ -20,7 +20,7 @@ package com.broodcamp.web.application;
 import java.io.Serializable;
 
 import com.broodcamp.data.dto.EnableEntityDto;
-import com.broodcamp.data.entity.base.EnableEntity;
+import com.broodcamp.data.entity.EnableEntity;
 
 import lombok.NoArgsConstructor;
 

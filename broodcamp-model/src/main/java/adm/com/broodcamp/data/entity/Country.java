@@ -15,9 +15,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.data.dto.adm;
+package adm.com.broodcamp.data.entity;
 
-import com.broodcamp.data.entity.BaseEntity;
+import javax.persistence.Cacheable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.broodcamp.data.entity.NamedEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,21 +36,27 @@ import lombok.NoArgsConstructor;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
+ * 
+ *         This class is not a BusinessEntity.
  **/
+@Entity
+@Table(name = "adm_country", uniqueConstraints = @UniqueConstraint(columnNames = { "code" }))
+@Cacheable
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = false, of = { "code" })
 @AllArgsConstructor
 @NoArgsConstructor
-public class SocialAccountDto extends BaseEntity {
+//@ApiModel
+public class Country extends NamedEntity {
 
-    private static final long serialVersionUID = -6868804229424530068L;
+	private static final long serialVersionUID = 1L;
 
-    private String facebook;
-    private String instagram;
-    private String pinterest;
-    private String google;
-    private String youtube;
-    private String twitter;
-    private String website;
-    private String blog;
+	@Column(name = "code", nullable = false, length = 100)
+	@Size(max = 100, min = 1)
+	@NotNull
+	private String code;
+
+	public String getNameOrCode() {
+		return !StringUtils.isBlank(getName()) ? getName() : code;
+	}
 }

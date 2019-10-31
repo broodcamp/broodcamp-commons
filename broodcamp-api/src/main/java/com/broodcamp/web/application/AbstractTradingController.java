@@ -41,10 +41,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.broodcamp.business.exception.ResourceNotFoundException;
 import com.broodcamp.data.dto.EnableEntityDto;
-import com.broodcamp.data.entity.base.EnableEntity;
+import com.broodcamp.data.entity.EnableEntity;
 import com.broodcamp.data.mapper.GenericMapper;
 import com.broodcamp.data.mapper.GenericMapperService;
-import com.broodcamp.data.repository.base.BaseRepository;
+import com.broodcamp.data.repository.BaseRepository;
 import com.broodcamp.util.ReflectionUtils;
 
 /**
