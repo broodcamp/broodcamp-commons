@@ -15,13 +15,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.data.entity;
+package com.broodcamp.data.entity.base;
 
+import java.util.Date;
+
+import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -30,20 +32,24 @@ import lombok.ToString;
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
+@MappedSuperclass
 @Data
 @EqualsAndHashCode(callSuper = true)
-@AllArgsConstructor
 @NoArgsConstructor
-@MappedSuperclass
 @ToString(callSuper = true)
-public abstract class BusinessEntity extends EnableEntity {
+public abstract class ExpireableEntity extends EnableEntity implements IExpireable {
 
-	private static final long serialVersionUID = 6694541298135798276L;
+    private static final long serialVersionUID = -6013235853578652704L;
 
-	@NotEmpty(message = "{businessEntity.notEmpty}")
-	@Size(min = 2, max = 50)
-	private String code;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "subscription_start_date", nullable = false)
+    private Date subscriptionStartDate;
 
-	private String description;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "subscription_end_date", nullable = false)
+    private Date subscriptionEndDate;
 
+    public boolean isExpired() {
+        return subscriptionEndDate.after(new Date()) ? true : false;
+    }
 }

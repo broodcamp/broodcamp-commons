@@ -15,21 +15,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.data.repository.adm;
+package com.broodcamp.data.repository.base;
 
+import java.io.Serializable;
 import java.util.Optional;
-import java.util.UUID;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.NoRepositoryBean;
 
-import com.broodcamp.data.entity.adm.Country;
-import com.broodcamp.data.repository.base.NamedRepository;
+import com.broodcamp.data.entity.base.NamedEntity;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
-@Repository
-public interface CountryRepository extends NamedRepository<Country, UUID> {
+@NoRepositoryBean
+public interface NamedRepository<T extends NamedEntity, I extends Serializable> extends EnableRepository<T, I> {
 
-    Optional<Country> findByCode(String code);
+    Optional<T> findByName(String name);
 }

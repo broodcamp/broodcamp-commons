@@ -55,10 +55,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.broodcamp.business.exception.ResourceNotFoundException;
 import com.broodcamp.data.dto.BaseEntityDto;
-import com.broodcamp.data.entity.BaseEntity;
+import com.broodcamp.data.entity.base.BaseEntity;
 import com.broodcamp.data.mapper.GenericMapper;
 import com.broodcamp.data.mapper.GenericMapperService;
-import com.broodcamp.data.repository.BaseRepository;
+import com.broodcamp.data.repository.base.BaseRepository;
 import com.broodcamp.data.utils.DateUtils;
 import com.broodcamp.util.NullAwareBeanUtilsBean;
 import com.broodcamp.util.ReflectionUtils;

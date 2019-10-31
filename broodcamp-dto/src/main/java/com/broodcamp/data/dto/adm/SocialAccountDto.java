@@ -17,7 +17,7 @@
  */
 package com.broodcamp.data.dto.adm;
 
-import com.broodcamp.data.entity.BaseEntity;
+import com.broodcamp.data.entity.base.BaseEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

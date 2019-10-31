@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.data.repository;
+package com.broodcamp.data.repository.base;
 
 import java.io.Serializable;
 import java.util.Optional;
@@ -23,7 +23,7 @@ import java.util.UUID;
 
 import org.springframework.data.repository.NoRepositoryBean;
 
-import com.broodcamp.data.entity.BusinessEntity;
+import com.broodcamp.data.entity.base.BusinessEntity;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com

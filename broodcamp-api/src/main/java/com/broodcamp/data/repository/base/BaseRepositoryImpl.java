@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.data.repository;
+package com.broodcamp.data.repository.base;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -29,8 +29,8 @@ import javax.persistence.EntityManager;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 
-import com.broodcamp.data.entity.AuditableEntity;
-import com.broodcamp.data.entity.BaseEntity;
+import com.broodcamp.data.entity.base.AuditableEntity;
+import com.broodcamp.data.entity.base.BaseEntity;
 
 /**
  * Overriden base repository. Must not be abstract.

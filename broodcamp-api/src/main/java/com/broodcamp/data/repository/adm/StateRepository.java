@@ -24,7 +24,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.broodcamp.data.entity.adm.State;
-import com.broodcamp.data.repository.NamedRepository;
+import com.broodcamp.data.repository.base.NamedRepository;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com

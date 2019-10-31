@@ -15,20 +15,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.data.repository;
+package com.broodcamp.data.entity.base;
 
-import java.io.Serializable;
-import java.util.Optional;
+import javax.persistence.MappedSuperclass;
 
-import org.springframework.data.repository.NoRepositoryBean;
-
-import com.broodcamp.data.entity.NamedEntity;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
-@NoRepositoryBean
-public interface NamedRepository<T extends NamedEntity, I extends Serializable> extends EnableRepository<T, I> {
+@MappedSuperclass
+@Data
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@ToString(callSuper = true)
+public abstract class EnableEntity extends AuditableEntity {
 
-    Optional<T> findByName(String name);
+	private static final long serialVersionUID = -7084847683632507391L;
+
+	private boolean disabled;
+
 }

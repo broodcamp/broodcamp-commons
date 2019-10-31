@@ -15,18 +15,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.data.repository;
-
-import java.io.Serializable;
-
-import org.springframework.data.repository.NoRepositoryBean;
-
-import com.broodcamp.data.entity.AuditableEntity;
+package com.broodcamp.data.entity.base;
 
 /**
- * @author Edward P. Legaspi | czetsuya@gmail.com
- */
-@NoRepositoryBean
-public interface AuditableRepository<T extends AuditableEntity, I extends Serializable> extends BaseRepository<T, I> {
+ * @author Edward P. Legaspi | czetsuya@gmail.com czetsuya@gmail.com
+ **/
+public interface IExpireable {
+	
+	boolean isExpired();
 
 }

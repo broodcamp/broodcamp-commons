@@ -15,26 +15,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.data.entity;
+package com.broodcamp.data.entity.base;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
-import javax.validation.constraints.Size;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
-@MappedSuperclass
-public abstract class NamedEntity extends EnableEntity {
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ ElementType.TYPE })
+@Inherited
+public @interface IObservable {
 
-	private static final long serialVersionUID = -279038813396705269L;
-
-	@Column(name = "NAME", nullable = false, length = 250)
-	@Size(max = 250)
-	protected String name;
 }

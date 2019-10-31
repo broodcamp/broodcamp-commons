@@ -15,15 +15,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.data.entity;
+package com.broodcamp.data.entity.base;
 
-import java.util.Date;
+import java.io.Serializable;
+import java.util.UUID;
 
 /**
- * @author Edward P. Legaspi | czetsuya@gmail.com
- **/
-public interface ITimeStamped {
+ * @author Edward P. Legaspi | czetsuya@gmail.com czetsuya@gmail.com
+ */
+public interface IEntity {
 
-	void setCreated(Date created);
+	UUID getId();
 
+	Serializable getEntityId();
+
+	boolean isTransient();
 }

@@ -19,8 +19,8 @@ package com.broodcamp.business.service;
 
 import java.io.Serializable;
 
-import com.broodcamp.data.entity.AuditableEntity;
-import com.broodcamp.data.repository.AuditableRepository;
+import com.broodcamp.data.entity.base.AuditableEntity;
+import com.broodcamp.data.repository.base.AuditableRepository;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com

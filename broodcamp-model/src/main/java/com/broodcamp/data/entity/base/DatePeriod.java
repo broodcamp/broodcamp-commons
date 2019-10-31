@@ -1,4 +1,4 @@
-package com.broodcamp.data.entity;
+package com.broodcamp.data.entity.base;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;

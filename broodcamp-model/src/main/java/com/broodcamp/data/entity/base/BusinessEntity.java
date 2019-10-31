@@ -15,19 +15,35 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.data.entity;
+package com.broodcamp.data.entity.base;
 
-import java.io.Serializable;
-import java.util.UUID;
+import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
- * @author Edward P. Legaspi | czetsuya@gmail.com czetsuya@gmail.com
+ * @author Edward P. Legaspi | czetsuya@gmail.com
  */
-public interface IEntity {
+@Data
+@EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@NoArgsConstructor
+@MappedSuperclass
+@ToString(callSuper = true)
+public abstract class BusinessEntity extends EnableEntity {
 
-	UUID getId();
+	private static final long serialVersionUID = 6694541298135798276L;
 
-	Serializable getEntityId();
+	@NotEmpty(message = "{businessEntity.notEmpty}")
+	@Size(min = 2, max = 50)
+	private String code;
 
-	boolean isTransient();
+	private String description;
+
 }

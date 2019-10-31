@@ -22,7 +22,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import com.broodcamp.data.entity.BaseEntity;
+import com.broodcamp.data.entity.base.BaseEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

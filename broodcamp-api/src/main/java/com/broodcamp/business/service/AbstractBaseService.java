@@ -21,8 +21,8 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.TypeVariable;
 
-import com.broodcamp.data.entity.BaseEntity;
-import com.broodcamp.data.repository.BaseRepository;
+import com.broodcamp.data.entity.base.BaseEntity;
+import com.broodcamp.data.repository.base.BaseRepository;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com

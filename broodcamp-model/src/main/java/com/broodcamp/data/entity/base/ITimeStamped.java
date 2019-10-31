@@ -15,27 +15,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.data.entity;
+package com.broodcamp.data.entity.base;
 
-import javax.persistence.MappedSuperclass;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import java.util.Date;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
- */
-@MappedSuperclass
-@Data
-@EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor
-@ToString(callSuper = true)
-public abstract class EnableEntity extends AuditableEntity {
+ **/
+public interface ITimeStamped {
 
-	private static final long serialVersionUID = -7084847683632507391L;
-
-	private boolean disabled;
+	void setCreated(Date created);
 
 }

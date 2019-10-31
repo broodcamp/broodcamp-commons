@@ -15,20 +15,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.data.repository;
+package com.broodcamp.data.repository.base;
 
 import java.io.Serializable;
-import java.util.List;
 
 import org.springframework.data.repository.NoRepositoryBean;
 
-import com.broodcamp.data.entity.EnableEntity;
+import com.broodcamp.data.entity.base.AuditableEntity;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
 @NoRepositoryBean
-public interface EnableRepository<T extends EnableEntity, I extends Serializable> extends AuditableRepository<T, I> {
+public interface AuditableRepository<T extends AuditableEntity, I extends Serializable> extends BaseRepository<T, I> {
 
-	List<T> findByDisabled(boolean disabled);
 }

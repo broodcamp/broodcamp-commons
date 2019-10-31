@@ -27,7 +27,7 @@ import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.broodcamp.data.entity.NamedEntity;
+import com.broodcamp.data.entity.base.NamedEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

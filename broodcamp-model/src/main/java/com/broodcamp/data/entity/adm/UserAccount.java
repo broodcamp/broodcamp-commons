@@ -32,7 +32,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
-import com.broodcamp.data.entity.BaseEntity;
+import com.broodcamp.data.entity.base.BaseEntity;
 import com.broodcamp.data.entity.shared.ContactInformation;
 import com.broodcamp.data.entity.shared.Name;
 

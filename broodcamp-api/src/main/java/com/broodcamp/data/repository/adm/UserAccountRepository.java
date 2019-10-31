@@ -22,7 +22,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Repository;
 
 import com.broodcamp.data.entity.adm.UserAccount;
-import com.broodcamp.data.repository.BaseRepository;
+import com.broodcamp.data.repository.base.BaseRepository;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com

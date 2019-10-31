@@ -27,7 +27,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import com.broodcamp.data.entity.NamedEntity;
+import com.broodcamp.data.entity.base.NamedEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
