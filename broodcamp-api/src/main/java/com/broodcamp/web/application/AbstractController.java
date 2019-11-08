@@ -22,8 +22,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -33,35 +31,22 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.context.MessageSource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Validator;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.broodcamp.business.exception.ResourceNotFoundException;
 import com.broodcamp.data.dto.BaseEntityDto;
 import com.broodcamp.data.entity.BaseEntity;
-import com.broodcamp.data.mapper.GenericMapper;
-import com.broodcamp.data.mapper.GenericMapperService;
-import com.broodcamp.data.repository.BaseRepository;
-import com.broodcamp.data.utils.DateUtils;
 import com.broodcamp.util.NullAwareBeanUtilsBean;
-import com.broodcamp.util.ReflectionUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -69,69 +54,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
 @Slf4j
-public abstract class AbstractController<E extends BaseEntity, D extends BaseEntityDto, I extends Serializable> {
-
-    public static final int DEFAULT_PAGE_SIZE = 10;
-
-    @Autowired
-    protected @Qualifier("validator") Validator validator;
-
-    @Autowired
-    protected MessageSource messageSource;
-
-    @Autowired
-    protected GenericMapperService<E, D> genericMapperService;
-
-    @Autowired
-    protected BaseRepository<E, I> repository;
-
-    @Autowired
-    protected RepresentationModelAssembler<D, EntityModel<D>> modelAssembler;
-
-    @Autowired
-    protected GenericMapper<E, D> genericMapper;
-
-    @SuppressWarnings("rawtypes")
-    protected Class<IController> controllerClass;
-    protected Class<E> entityClass;
-    protected Class<D> dtoClass;
-
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    public AbstractController() {
-
-        Class clazz = getClass();
-        entityClass = (Class<E>) ReflectionUtils.getParameterTypeClass(clazz, 0);
-        dtoClass = (Class<D>) ReflectionUtils.getParameterTypeClass(clazz, 1);
-        controllerClass = IController.class;
-    }
-
-    /**
-     * Binds the validator and default date format. For example, if we passed a
-     * string {@linkplain Date} with the given format it is automatically parsed.
-     * 
-     * @param binder data binder
-     * @see CustomDateEditor
-     */
-    @InitBinder
-    protected void initBinder(WebDataBinder binder) {
-
-        binder.setValidator(validator);
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat(DateUtils.SDF_STRING);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
-    }
-
-    protected Pageable initPage(Integer size, Integer page) {
-
-        if (size == null) {
-            size = DEFAULT_PAGE_SIZE;
-        }
-        if (page == null) {
-            page = 0;
-        }
-
-        return PageRequest.of(page, size);
-    }
+public abstract class AbstractController<E extends BaseEntity, D extends BaseEntityDto, I extends Serializable> extends AbstractBaseController<E, D, I> {
 
     // @ApiOperation(value = "Create new entity" //
     // , notes = "Creates new entity. Returns the created entity with uid.")
@@ -203,12 +126,11 @@ public abstract class AbstractController<E extends BaseEntity, D extends BaseEnt
     @GetMapping
     public CollectionModel<EntityModel<D>> findAll(/*
                                                     * @ApiParam(value = "The size of the page to be returned", defaultValue = "" +
-                                                    * DEFAULT_PAGE_SIZE) @RequestParam(required = false)
-                                                    */ Integer size //
+                                                    * DEFAULT_PAGE_SIZE)
+                                                    */ @RequestParam(required = false) Integer size //
             , /*
-               * @ApiParam(value = "Zero-based page index", defaultValue =
-               * "0") @RequestParam(required = false)
-               */ Integer page) throws NotSupportedException {
+               * @ApiParam(value = "Zero-based page index", defaultValue = "0")
+               */ @RequestParam(required = false) Integer page) throws NotSupportedException {
 
         if (size == null) {
             size = DEFAULT_PAGE_SIZE;
@@ -233,10 +155,5 @@ public abstract class AbstractController<E extends BaseEntity, D extends BaseEnt
         repository.deleteById(uid);
 
         return ResponseEntity.noContent().build();
-    }
-
-    protected ResourceNotFoundException createNewResourceNotFoundException(Serializable id) {
-
-        return new ResourceNotFoundException(entityClass.getSimpleName(), id);
     }
 }

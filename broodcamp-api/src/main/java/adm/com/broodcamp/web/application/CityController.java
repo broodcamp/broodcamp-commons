@@ -17,21 +17,10 @@
  */
 package adm.com.broodcamp.web.application;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,7 +28,6 @@ import com.broodcamp.web.application.AbstractNamedController;
 
 import adm.com.broodcamp.business.domain.CityDto;
 import adm.com.broodcamp.data.entity.City;
-import adm.com.broodcamp.data.repository.CityRepository;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
@@ -49,18 +37,4 @@ import adm.com.broodcamp.data.repository.CityRepository;
 @Validated
 public class CityController extends AbstractNamedController<City, CityDto, UUID> {
 
-    @Autowired
-    private CityRepository cityRepository;
-
-    @GetMapping(path = "/state/{stateId}")
-    public CollectionModel<EntityModel<CityDto>> findByStateId(@PathVariable UUID stateId, Integer size, Integer page) {
-
-        Pageable pageable = initPage(page, size);
-
-        List<City> cities = cityRepository.findByStateId(stateId, pageable);
-
-        List<EntityModel<CityDto>> entities = cities.stream().map(e -> modelAssembler.toModel(genericMapper.toDto(e))).collect(Collectors.toList());
-
-        return new CollectionModel<>(entities, linkTo(methodOn(CityController.class).findByStateId(stateId, size, page)).withSelfRel());
-    }
 }

@@ -17,21 +17,10 @@
  */
 package adm.com.broodcamp.web.application;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,7 +28,6 @@ import com.broodcamp.web.application.AbstractNamedController;
 
 import adm.com.broodcamp.business.domain.RegionDto;
 import adm.com.broodcamp.data.entity.Region;
-import adm.com.broodcamp.data.repository.RegionRepository;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
@@ -49,18 +37,4 @@ import adm.com.broodcamp.data.repository.RegionRepository;
 @Validated
 public class RegionController extends AbstractNamedController<Region, RegionDto, UUID> {
 
-    @Autowired
-    private RegionRepository regionRepository;
-
-    @GetMapping(path = "/country/{countryId}")
-    public CollectionModel<EntityModel<RegionDto>> findByCountryId(@PathVariable UUID countryId, Integer size, Integer page) {
-
-        Pageable pageable = initPage(page, size);
-
-        List<Region> regions = regionRepository.findByCountryId(countryId, pageable);
-
-        List<EntityModel<RegionDto>> entities = regions.stream().map(e -> modelAssembler.toModel(genericMapper.toDto(e))).collect(Collectors.toList());
-
-        return new CollectionModel<>(entities, linkTo(methodOn(RegionController.class).findByCountryId(countryId, size, page)).withSelfRel());
-    }
 }

@@ -29,6 +29,8 @@ import com.broodcamp.data.entity.BaseEntity;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
+ * 
+ * @see https://www.baeldung.com/spring-data-derived-queries
  */
 @NoRepositoryBean
 public interface BaseRepository<T extends BaseEntity, I extends Serializable> extends JpaRepository<T, I> {
