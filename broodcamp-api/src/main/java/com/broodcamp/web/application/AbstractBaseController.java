@@ -34,6 +34,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 
 import com.broodcamp.business.exception.ResourceNotFoundException;
+import com.broodcamp.data.annotation.EntityCode;
 import com.broodcamp.data.dto.BaseEntityDto;
 import com.broodcamp.data.entity.BaseEntity;
 import com.broodcamp.data.mapper.GenericMapper;
@@ -111,6 +112,13 @@ public abstract class AbstractBaseController<E extends BaseEntity, D extends Bas
 
     protected ResourceNotFoundException createNewResourceNotFoundException(Serializable id) {
 
-        return new ResourceNotFoundException(entityClass.getSimpleName(), id);
+        String errorCode = "";
+        try {
+            errorCode = ((EntityCode) entityClass.getAnnotation(EntityCode.class)).value();
+
+        } catch (NullPointerException npe) {
+        }
+        
+        return new ResourceNotFoundException(errorCode, entityClass.getSimpleName(), id);
     }
 }

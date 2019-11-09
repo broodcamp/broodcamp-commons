@@ -40,6 +40,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.broodcamp.business.exception.ResourceNotFoundException;
+import com.broodcamp.data.annotation.EntityCode;
 import com.broodcamp.data.dto.EnableEntityDto;
 import com.broodcamp.data.entity.EnableEntity;
 import com.broodcamp.data.mapper.GenericMapper;
@@ -112,6 +113,13 @@ public abstract class AbstractTradingController<E extends EnableEntity, D extend
 
     protected ResourceNotFoundException createNewResourceNotFoundException(Serializable id) {
 
-        return new ResourceNotFoundException(entityClass.getSimpleName(), id);
+        String errorCode = "";
+        try {
+            errorCode = ((EntityCode) entityClass.getAnnotation(EntityCode.class)).value();
+
+        } catch (NullPointerException npe) {
+        }
+
+        return new ResourceNotFoundException(errorCode, entityClass.getSimpleName(), id);
     }
 }

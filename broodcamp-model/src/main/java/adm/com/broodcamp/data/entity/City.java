@@ -49,30 +49,30 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class City extends NamedEntity {
 
-	private static final long serialVersionUID = -3565472427670689063L;
+    private static final long serialVersionUID = -3565472427670689063L;
 
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
-	@JoinColumn(name = "state_id")
-	private State state;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "state_id")
+    private State state;
 
-	@Column(name = "district", length = 100)
-	private String district;
+    @Column(name = "district", length = 100)
+    private String district;
 
-	@Column(name = "longitude")
-	private Double longitude;
+    @Column(name = "longitude")
+    private Double longitude;
 
-	@Column(name = "latitude")
-	private Double latitude;
+    @Column(name = "latitude")
+    private Double latitude;
 
-	@Column(name = "is_city")
-	private Boolean isCity;
+    @Column(name = "is_city")
+    private Boolean isCity;
 
-	public String getStateAndCity() {
-		if (state != null) {
-			return getName() + ", " + state.getName();
-		}
+    public String getStateAndCity() {
+        if (state != null) {
+            return getName() + ", " + state.getName();
+        }
 
-		return getName();
-	}
+        return getName();
+    }
 
 }

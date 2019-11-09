@@ -187,14 +187,23 @@ public class ApplicationExceptionResponseHandler extends ResponseEntityException
     }
 
     @ExceptionHandler({ ResourceNotFoundException.class })
-    public ResponseEntity<Object> handleMethodArgumentTypeMismatch(final ResourceNotFoundException ex, final WebRequest request) {
+    public ResponseEntity<Object> handleResourceNotFoundException(final ResourceNotFoundException ex, final WebRequest request) {
+
+        logger.info(ex.getClass().getName());
+
+        final ExceptionResponse response = new ExceptionResponse(ex.getLocalizedMessage(), "");
+        return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({ BaseRollbackableException.class })
+    public ResponseEntity<Object> handleBaseRollbackableException(final BaseRollbackableException ex, final WebRequest request) {
 
         logger.info(ex.getClass().getName());
 
         final String error = ex.getMessage();
 
         final ExceptionResponse response = new ExceptionResponse(ex.getLocalizedMessage(), error);
-        return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
     // 500

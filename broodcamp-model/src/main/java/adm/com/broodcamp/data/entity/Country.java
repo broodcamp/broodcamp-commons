@@ -49,14 +49,14 @@ import lombok.NoArgsConstructor;
 //@ApiModel
 public class Country extends NamedEntity {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Column(name = "code", nullable = false, length = 100)
-	@Size(max = 100, min = 1)
-	@NotNull
-	private String code;
+    @Column(name = "code", nullable = false, length = 100)
+    @Size(max = 100, min = 1)
+    @NotNull
+    private String code;
 
-	public String getNameOrCode() {
-		return !StringUtils.isBlank(getName()) ? getName() : code;
-	}
+    public String getNameOrCode() {
+        return !StringUtils.isBlank(getName()) ? getName() : code;
+    }
 }
