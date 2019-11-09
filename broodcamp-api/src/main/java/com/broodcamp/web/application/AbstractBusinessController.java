@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.broodcamp.business.exception.ResourceAlreadyExistsException;
+import com.broodcamp.business.exception.ResourceFoundException;
 import com.broodcamp.data.dto.BusinessEntityDto;
 import com.broodcamp.data.entity.BusinessEntity;
 import com.broodcamp.data.repository.BusinessRepository;
@@ -64,7 +64,7 @@ public abstract class AbstractBusinessController<E extends BusinessEntity, D ext
     public ResponseEntity<EntityModel<D>> create(@RequestBody @NotNull @Valid D dto) throws NotSupportedException {
 
         if (businessRepository.findByCode(dto.getCode()).isPresent()) {
-            throw new ResourceAlreadyExistsException(entityClass, dto.getCode());
+            throw new ResourceFoundException(entityClass, dto.getCode());
         }
 
         return super.create(dto);

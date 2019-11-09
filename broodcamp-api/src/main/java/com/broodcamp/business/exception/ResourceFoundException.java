@@ -25,17 +25,17 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
 @ResponseStatus(value = HttpStatus.FOUND)
-public class ResourceAlreadyExistsException extends InvalidConfigurationPropertyValueException {
+public class ResourceFoundException extends InvalidConfigurationPropertyValueException {
 
     private static final long serialVersionUID = 7236295209124886220L;
     private static final String REASON = "found";
 
-    public ResourceAlreadyExistsException(String className, String fieldName, String value) {
+    public ResourceFoundException(String className, String fieldName, String value) {
 
         super(className + "." + fieldName, value, REASON);
     }
 
-    public ResourceAlreadyExistsException(Class<?> entityClass, String value) {
+    public ResourceFoundException(Class<?> entityClass, String value) {
 
         this(entityClass.getSimpleName(), "code", value);
     }

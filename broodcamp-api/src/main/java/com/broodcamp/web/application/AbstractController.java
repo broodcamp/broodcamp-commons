@@ -68,7 +68,7 @@ public abstract class AbstractController<E extends BaseEntity, D extends BaseEnt
     }
 
     @PutMapping(path = "/{uid}")
-    public ResponseEntity<D> update(@RequestBody D newDto, @PathVariable /* @ApiParam(value = "entity uid", required = true) */ I uid) throws NotSupportedException {
+    public ResponseEntity<D> update(@RequestBody D newDto, @PathVariable /* @ApiParam(value = "entity uid", required = true) */ @NotNull I uid) throws NotSupportedException {
 
         E newEntity = genericMapper.toModel(newDto);
 
@@ -91,7 +91,7 @@ public abstract class AbstractController<E extends BaseEntity, D extends BaseEnt
     }
 
     @PostMapping(path = "/{uid}/createOrUpdate")
-    public ResponseEntity<?> createOrUpdate(@RequestBody @Valid D newDto, @PathVariable("uuid") I uid) throws NotSupportedException {
+    public ResponseEntity<?> createOrUpdate(@RequestBody @Valid D newDto, @NotNull @PathVariable("uuid") I uid) throws NotSupportedException {
 
         return repository.findById(uid).isPresent() ? update(newDto, uid) : create(newDto);
     }
@@ -150,7 +150,7 @@ public abstract class AbstractController<E extends BaseEntity, D extends BaseEnt
     // @ApiOperation(value = "Delete entity" //
     // , notes = "Deletes an entity for uid specified. No content is returned.")
     @DeleteMapping(path = "/{uid}")
-    public ResponseEntity<D> delete(@PathVariable /* @ApiParam(value = "entity uid", required = true) */ I uid) throws NotSupportedException {
+    public ResponseEntity<D> delete(@PathVariable /* @ApiParam(value = "entity uid", required = true) */ @NotNull I uid) throws NotSupportedException {
 
         repository.deleteById(uid);
 

@@ -195,6 +195,15 @@ public class ApplicationExceptionResponseHandler extends ResponseEntityException
         return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler({ ResourceFoundException.class })
+    public ResponseEntity<Object> handleResourceFoundException(final ResourceFoundException ex, final WebRequest request) {
+
+        logger.info(ex.getClass().getName());
+
+        final ExceptionResponse response = new ExceptionResponse(ex.getLocalizedMessage(), "");
+        return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler({ BaseRollbackableException.class })
     public ResponseEntity<Object> handleBaseRollbackableException(final BaseRollbackableException ex, final WebRequest request) {
 
