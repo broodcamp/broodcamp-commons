@@ -1,5 +1,5 @@
 /**
- * Broodcamp Library
+ * An Open Source Inventory and Sales Management System
  * Copyright (C) 2019 Edward P. Legaspi (https://github.com/czetsuya)
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -23,38 +23,38 @@ import lombok.EqualsAndHashCode;
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  * 
- * @since 1.0.0
- * @version 1.0.0
+ * @since
+ * @version
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class BaseRollbackableException extends RuntimeException {
+public class BaseNonRuntimeException extends Exception {
 
     private static final long serialVersionUID = 7864489501431607019L;
     private String code;
 
-    public BaseRollbackableException() {
+    public BaseNonRuntimeException() {
         super();
         registerEvent();
     }
 
-    public BaseRollbackableException(String code, String message, Throwable cause) {
-        super(code + ":" + message, cause);
+    public BaseNonRuntimeException(String code, String message, Throwable cause) {
+        super(code + ": " + message, cause);
         registerEvent();
     }
 
-    public BaseRollbackableException(String code, String message) {
+    public BaseNonRuntimeException(String code, String message) {
         super(code + ": " + message);
         this.code = code;
         registerEvent();
     }
 
-    public BaseRollbackableException(Throwable cause) {
+    public BaseNonRuntimeException(Throwable cause) {
         super(cause);
         registerEvent();
     }
 
-    public BaseRollbackableException(String code) {
+    public BaseNonRuntimeException(String code) {
         super("");
         this.code = code;
     }

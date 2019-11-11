@@ -1,5 +1,5 @@
 /**
- * Broodcamp Library
+ * An Open Source Inventory and Sales Management System
  * Copyright (C) 2019 Edward P. Legaspi (https://github.com/czetsuya)
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -17,24 +17,21 @@
  */
 package com.broodcamp.business.exception;
 
-import lombok.NoArgsConstructor;
-
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  * 
- * @since 1.0.0
- * @version 1.0.0
+ * @since
+ * @version
  */
-@NoArgsConstructor
-public class BusinessException extends BaseRollbackableException {
+public class BusinessNonRuntimeException extends BaseNonRuntimeException {
 
-    private static final long serialVersionUID = 3128244877426420591L;
+    private static final long serialVersionUID = 7310153829413873692L;
 
-    public BusinessException(String code, String message) {
+    public BusinessNonRuntimeException(String code, String message) {
         super(code, message);
     }
 
-    public BusinessException(String code) {
+    public BusinessNonRuntimeException(String code) {
         super(code);
     }
 }
