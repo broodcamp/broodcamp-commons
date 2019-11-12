@@ -56,8 +56,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public abstract class AbstractController<E extends BaseEntity, D extends BaseEntityDto, I extends Serializable> extends AbstractBaseController<E, D, I> {
 
-    // @ApiOperation(value = "Create new entity" //
-    // , notes = "Creates new entity. Returns the created entity with uid.")
+    @GetMapping(path = "/test/hello")
+    public String test() {
+        return "Hello World";
+    }
+
     @PostMapping
     public ResponseEntity<EntityModel<D>> create(@RequestBody @NotNull @Valid D dto) throws NotSupportedException {
 
@@ -68,7 +71,7 @@ public abstract class AbstractController<E extends BaseEntity, D extends BaseEnt
     }
 
     @PutMapping(path = "/{uid}")
-    public ResponseEntity<D> update(@RequestBody D newDto, @PathVariable /* @ApiParam(value = "entity uid", required = true) */ @NotNull I uid) throws NotSupportedException {
+    public ResponseEntity<D> update(@RequestBody D newDto, @PathVariable @NotNull I uid) throws NotSupportedException {
 
         E newEntity = genericMapper.toModel(newDto);
 
@@ -113,24 +116,16 @@ public abstract class AbstractController<E extends BaseEntity, D extends BaseEnt
      */
     @SuppressWarnings("unchecked")
     @GetMapping(path = "/{uid}")
-    public EntityModel<D> findById(@PathVariable /* @ApiParam(value = "entity identifier", required = true) */ UUID uid) throws NotSupportedException {
+    public EntityModel<D> findById(@PathVariable UUID uid) throws NotSupportedException {
 
         E entity = repository.findById((I) uid).orElseThrow(() -> createNewResourceNotFoundException(uid));
 
         return modelAssembler.toModel(genericMapper.toDto(entity));
     }
 
-    // @ApiOperation(value = "Get all categories" //
-    // , notes = "Returns first N categories specified by the size parameter with
-    // page offset specified by page parameter.")
     @GetMapping
-    public CollectionModel<EntityModel<D>> findAll(/*
-                                                    * @ApiParam(value = "The size of the page to be returned", defaultValue = "" +
-                                                    * DEFAULT_PAGE_SIZE)
-                                                    */ @RequestParam(required = false) Integer size //
-            , /*
-               * @ApiParam(value = "Zero-based page index", defaultValue = "0")
-               */ @RequestParam(required = false) Integer page) throws NotSupportedException {
+    public CollectionModel<EntityModel<D>> findAll(@RequestParam(required = false) Integer size //
+            , @RequestParam(required = false) Integer page) throws NotSupportedException {
 
         if (size == null) {
             size = DEFAULT_PAGE_SIZE;
@@ -146,11 +141,8 @@ public abstract class AbstractController<E extends BaseEntity, D extends BaseEnt
         return new CollectionModel<>(entities, linkTo(methodOn(controllerClass).findAll(size, page)).withSelfRel());
     }
 
-    // @ApiModelProperty(notes = "Delete an entity with a given id")
-    // @ApiOperation(value = "Delete entity" //
-    // , notes = "Deletes an entity for uid specified. No content is returned.")
     @DeleteMapping(path = "/{uid}")
-    public ResponseEntity<D> delete(@PathVariable /* @ApiParam(value = "entity uid", required = true) */ @NotNull I uid) throws NotSupportedException {
+    public ResponseEntity<D> delete(@PathVariable @NotNull I uid) throws NotSupportedException {
 
         repository.deleteById(uid);
 

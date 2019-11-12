@@ -48,9 +48,6 @@ public abstract class AbstractBusinessController<E extends BusinessEntity, D ext
     @Autowired
     protected BusinessRepository<E, I> businessRepository;
 
-//	@ApiOperation(value = "Get entity by code" //
-//			, notes = "Returns the entity for the code specified.")
-//	@ApiResponses(value = { @ApiResponse(code = 404, message = "Entity not found") })
     @GetMapping(path = "/code/{code}")
     public EntityModel<D> findByCode(@PathVariable @Size(min = 2, max = 50) /* @ApiParam(value = "entity code", required = true) */ String code) {
 
