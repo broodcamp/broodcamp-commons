@@ -56,11 +56,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public abstract class AbstractController<E extends BaseEntity, D extends BaseEntityDto, I extends Serializable> extends AbstractBaseController<E, D, I> {
 
-    @GetMapping(path = "/test/hello")
-    public String test() {
-        return "Hello World";
-    }
-
     @PostMapping
     public ResponseEntity<EntityModel<D>> create(@RequestBody @NotNull @Valid D dto) throws NotSupportedException {
 
@@ -99,10 +94,6 @@ public abstract class AbstractController<E extends BaseEntity, D extends BaseEnt
         return repository.findById(uid).isPresent() ? update(newDto, uid) : create(newDto);
     }
 
-    // @ApiOperation(value = "Get entity by uid" //
-    // , notes = "Returns entity for uid specified.")
-    // @ApiResponses(value = { @ApiResponse(code = 404, message = "Entity not
-    // found") })
     /**
      * Retrieves an entity by its id.
      * <p>

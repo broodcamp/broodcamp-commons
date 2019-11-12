@@ -24,7 +24,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,13 +44,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public abstract class AbstractBusinessController<E extends BusinessEntity, D extends BusinessEntityDto, I extends Serializable> extends AbstractEnableController<E, D, I> {
 
-    @Autowired
-    protected BusinessRepository<E, I> businessRepository;
-
     @GetMapping(path = "/code/{code}")
-    public EntityModel<D> findByCode(@PathVariable @Size(min = 2, max = 50) /* @ApiParam(value = "entity code", required = true) */ String code) {
+    public EntityModel<D> findByCode(@PathVariable @Size(min = 2, max = 50) String code) {
 
-        E entity = businessRepository.findByCode(code).orElseThrow(() -> createNewResourceNotFoundException(code));
+        E entity = ((BusinessRepository<E, I>) repository).findByCode(code).orElseThrow(() -> createNewResourceNotFoundException(code));
 
         return modelAssembler.toModel(genericMapper.toDto(entity));
     }
@@ -60,7 +56,7 @@ public abstract class AbstractBusinessController<E extends BusinessEntity, D ext
     @PostMapping
     public ResponseEntity<EntityModel<D>> create(@RequestBody @NotNull @Valid D dto) throws NotSupportedException {
 
-        if (businessRepository.findByCode(dto.getCode()).isPresent()) {
+        if (((BusinessRepository<E, I>) repository).findByCode(dto.getCode()).isPresent()) {
             throw new ResourceFoundException(entityClass, dto.getCode());
         }
 
