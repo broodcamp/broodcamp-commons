@@ -31,7 +31,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -118,14 +117,7 @@ public abstract class AbstractController<E extends BaseEntity, D extends BaseEnt
     public CollectionModel<EntityModel<D>> findAll(@RequestParam(required = false) Integer size //
             , @RequestParam(required = false) Integer page) throws NotSupportedException {
 
-        if (size == null) {
-            size = DEFAULT_PAGE_SIZE;
-        }
-        if (page == null) {
-            page = 0;
-        }
-
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = initPage(page, size);
 
         List<EntityModel<D>> entities = repository.findAll(pageable).stream().map(e -> modelAssembler.toModel(genericMapper.toDto(e))).collect(Collectors.toList());
 
