@@ -28,7 +28,7 @@ import com.broodcamp.data.entity.EnableEntity;
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
 @NoRepositoryBean
-public interface EnableRepository<T extends EnableEntity, ID extends Serializable> extends AuditableRepository<T, ID> {
+public interface EnableRepository<T extends EnableEntity, I extends Serializable> extends AuditableRepository<T, I> {
 
 	List<T> findByDisabled(boolean disabled);
 }

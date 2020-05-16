@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.broodcamp</groupId>
 		<artifactId>broodcamp-commons</artifactId>
-		<version>0.0.1</version>
+		<version>0.0.2</version>
 	</parent>
 	<artifactId>broodcamp-model</artifactId>
 	<packaging>jar</packaging>
@@ -14,7 +14,7 @@
 	<scm>
 		<developerConnection>Edward P. Legaspi &lt;czetsuya@gmail.com&gt;</developerConnection>
 	</scm>
-	
+
 	<licenses>
 		<license>
 			<name>GNU GPL, Version 3.0</name>
@@ -41,11 +41,31 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.javaparser</groupId>
+			<artifactId>javaparser-symbol-solver-core</artifactId>
+			<version>3.6.26</version>
+		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.10.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
 		</dependency>
 
 		<!-- <dependency> -->
@@ -61,4 +81,43 @@
 		<!-- <artifactId>springfox-data-rest</artifactId> -->
 		<!-- </dependency> -->
 	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>db-docs</id>
+			<!-- Dependencies for db model documention generation -->
+			<dependencies>
+				<dependency>
+					<groupId>com.github.javaparser</groupId>
+					<artifactId>javaparser-core</artifactId>
+					<version>3.6.26</version>
+				</dependency>
+			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>1.2.1</version>
+						<executions>
+							<execution>
+								<phase>compile</phase>
+								<goals>
+									<goal>java</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<mainClass>com.broodcamp.model.codegen.DomainModelDocGenerator</mainClass>
+							<classpathScope>test</classpathScope>
+							<arguments>
+								<argument>${project.build.sourceDirectory}</argument>
+								<argument>${project.build.directory}/dbModel/docs</argument>
+							</arguments>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

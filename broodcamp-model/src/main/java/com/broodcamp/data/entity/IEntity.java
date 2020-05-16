@@ -21,7 +21,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 /**
- * @author Edward P. Legaspi | czetsuya@gmail.com <czetsuya@gmail.com>
+ * @author Edward P. Legaspi | czetsuya@gmail.com czetsuya@gmail.com
  */
 public interface IEntity {
 

@@ -24,8 +24,10 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Version;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,37 +38,42 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @MappedSuperclass
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true, value = { "hibernateLazyInitializer", "handler" })
 public abstract class BaseEntity implements Serializable, IEntity {
 
-	private static final long serialVersionUID = 3986494663579679129L;
+    private static final long serialVersionUID = 3986494663579679129L;
 
-	public static final int NB_PRECISION = 23;
-	public static final int NB_DECIMALS = 12;
+    public static final int NB_PRECISION = 23;
+    public static final int NB_DECIMALS = 12;
 
-	@Id
-	@GeneratedValue
-	@Column(columnDefinition = "uuid", updatable = false)
-	private UUID id;
+    @Id
+    @GeneratedValue
+    @Column(columnDefinition = "uuid", updatable = false)
+    private UUID id;
 
-	/**
-	 * The entity.id. Unfortunately, the field "id" is already reserved/use by
-	 * Spring Data JPA.
-	 * 
-	 * @return entity.id
-	 */
-	public Serializable getEntityId() {
-		return id;
-	}
+    @Version
+    @Column(name = "version")
+    private Integer version;
 
-	@Override
-	public boolean isTransient() {
-		return id == null;
-	}
+    /**
+     * The entity.id. Unfortunately, the field "id" is already reserved/use by
+     * Spring Data JPA.
+     * 
+     * @return entity.id
+     */
+    public Serializable getEntityId() {
+        return id;
+    }
 
-	@Override
-	public String toString() {
-		return "BaseEntity [entityId=" + id + "]";
-	}
+    @Override
+    public boolean isTransient() {
+        return id == null;
+    }
+
+    @Override
+    public String toString() {
+        return "BaseEntity [entityId=" + id + "]";
+    }
 
 }

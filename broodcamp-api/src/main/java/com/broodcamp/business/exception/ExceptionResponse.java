@@ -62,5 +62,4 @@ public class ExceptionResponse {
 		this.message = message;
 		this.errors = errors;
 	}
-
 }

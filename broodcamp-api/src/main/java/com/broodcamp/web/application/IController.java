@@ -17,16 +17,23 @@
  */
 package com.broodcamp.web.application;
 
+import java.util.UUID;
+
+import javax.transaction.NotSupportedException;
+
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.web.bind.annotation.PathVariable;
 
-import com.broodcamp.data.entity.IEntity;
+import com.broodcamp.data.dto.BaseEntityDto;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
-public interface IController<E extends IEntity> {
+public interface IController<D extends BaseEntityDto> {
 
-	CollectionModel<EntityModel<E>> findAll(Integer size, Integer page);
+    CollectionModel<EntityModel<D>> findAll(Integer size, Integer page) throws NotSupportedException;
+
+    EntityModel<D> findById(@PathVariable UUID uid) throws NotSupportedException;
 
 }

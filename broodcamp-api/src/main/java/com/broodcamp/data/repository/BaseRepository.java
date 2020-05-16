@@ -29,9 +29,11 @@ import com.broodcamp.data.entity.BaseEntity;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
+ * 
+ * @see https://www.baeldung.com/spring-data-derived-queries
  */
 @NoRepositoryBean
-public interface BaseRepository<T extends BaseEntity, ID extends Serializable> extends JpaRepository<T, ID> {
+public interface BaseRepository<T extends BaseEntity, I extends Serializable> extends JpaRepository<T, I> {
 
 	@Override
 	<S extends T> S save(S entity);
@@ -51,5 +53,4 @@ public interface BaseRepository<T extends BaseEntity, ID extends Serializable> e
 	List<T> refreshOrRetrieve(List<T> entities);
 
 	Set<T> refreshOrRetrieve(Set<T> entities);
-
 }

@@ -18,75 +18,48 @@
 package com.broodcamp.web.application;
 
 import java.io.Serializable;
-import java.net.URISyntaxException;
-import java.util.UUID;
 
+import javax.transaction.NotSupportedException;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.broodcamp.business.exception.ResourceFoundException;
+import com.broodcamp.data.dto.BusinessEntityDto;
 import com.broodcamp.data.entity.BusinessEntity;
 import com.broodcamp.data.repository.BusinessRepository;
+
+import lombok.NoArgsConstructor;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
-public abstract class AbstractBusinessController<E extends BusinessEntity, I extends Serializable> extends AbstractEnableController<E, I> {
+@NoArgsConstructor
+public abstract class AbstractBusinessController<E extends BusinessEntity, D extends BusinessEntityDto, I extends Serializable> extends AbstractEnableController<E, D, I> {
 
-    protected BusinessRepository<E, I> businessRepository;
-
-    @SuppressWarnings("rawtypes")
-    public AbstractBusinessController(BusinessRepository<E, I> repository, RepresentationModelAssembler<E, EntityModel<E>> modelAssembler, Validator validator,
-            Class<IController> iController) {
-
-        super(repository, modelAssembler, validator, iController);
-        this.businessRepository = repository;
-    }
-
-    /**
-     * Updates a business entity.
-     * <p>
-     * ID type cannot be use as a parameters as HATEOAS will not be able to produce
-     * a converter.
-     * </p>
-     * 
-     * @param newEntity
-     * @param uid
-     * @return
-     * @throws URISyntaxException
-     */
-//	@ApiOperation(value = "Update new entity" //
-//			, notes = "Updates new entity. Returns the updated entity.")
-    @PutMapping(path = "/{uid}")
-    public ResponseEntity<E> update(@RequestBody E newEntity, @PathVariable /* @ApiParam(value = "entity uid", required = true) */ I uid) {
-
-        E updatedEntity = businessRepository.findById(uid).map(entity -> {
-            entity.setDescription(newEntity.getDescription());
-            return businessRepository.save(entity);
-
-        }).orElseGet(() -> {
-            newEntity.setId((UUID) uid);
-            return businessRepository.save(newEntity);
-        });
-
-        return ResponseEntity.ok().body(updatedEntity);
-    }
-
-//	@ApiOperation(value = "Get entity by code" //
-//			, notes = "Returns the entity for the code specified.")
-//	@ApiResponses(value = { @ApiResponse(code = 404, message = "Entity not found") })
     @GetMapping(path = "/code/{code}")
-    public EntityModel<E> findByCode(@PathVariable @Size(min = 2, max = 50) /* @ApiParam(value = "entity code", required = true) */ String code) {
+    public EntityModel<D> findByCode(@PathVariable @Size(min = 2, max = 50) String code) {
 
-        E entity = businessRepository.findByCode(code).orElseThrow(() -> createNewResourceNotFoundException(code));
+        E entity = ((BusinessRepository<E, I>) repository).findByCode(code).orElseThrow(() -> createNewResourceNotFoundException(code));
 
-        return modelAssembler.toModel(entity);
+        return modelAssembler.toModel(genericMapper.toDto(entity));
+    }
+
+    @Override
+    @PostMapping
+    public ResponseEntity<EntityModel<D>> create(@RequestBody @NotNull @Valid D dto) throws NotSupportedException {
+
+        if (((BusinessRepository<E, I>) repository).findByCode(dto.getCode()).isPresent()) {
+            throw new ResourceFoundException(entityClass, dto.getCode());
+        }
+
+        return super.create(dto);
     }
 }

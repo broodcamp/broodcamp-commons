@@ -37,7 +37,7 @@ import com.broodcamp.data.entity.BaseEntity;
  * 
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
-public class BaseRepositoryImpl<T extends BaseEntity, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements BaseRepository<T, ID> {
+public class BaseRepositoryImpl<T extends BaseEntity, I extends Serializable> extends SimpleJpaRepository<T, I> implements BaseRepository<T, I> {
 
     private EntityManager entityManager;
 
@@ -83,7 +83,7 @@ public class BaseRepositoryImpl<T extends BaseEntity, ID extends Serializable> e
             optEntity = Optional.of(entity);
 
         } else {
-            optEntity = findById((ID) entity.getId());
+            optEntity = findById((I) entity.getId());
         }
 
         return optEntity;
@@ -136,7 +136,7 @@ public class BaseRepositoryImpl<T extends BaseEntity, ID extends Serializable> e
             optEntity = Optional.of(entity);
 
         } else {
-            return findById((ID) entity.getId());
+            return findById((I) entity.getId());
         }
 
         return optEntity;

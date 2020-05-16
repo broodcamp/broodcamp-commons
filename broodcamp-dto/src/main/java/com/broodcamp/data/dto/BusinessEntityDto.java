@@ -17,6 +17,9 @@
  */
 package com.broodcamp.data.dto;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,20 +34,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public abstract class BusinessEntityDto extends EnableEntityDto {
 
-	private String code;
-	private String description;
-	/**
-	 * Use to match angular model.
-	 */
-	@SuppressWarnings("unused")
-	private String descriptionOrCode;
+    @NotNull
+    @Size(min = 2, max = 255)
+    private String code;
+    private String description;
+    /**
+     * Use to match angular model.
+     */
+    @SuppressWarnings("unused")
+    private String descriptionOrCode;
 
-	public String getDescriptionOrCode() {
-		if (description == null || description.equals("")) {
-			return code;
-		}
+    public String getDescriptionOrCode() {
+        if (description == null || description.equals("")) {
+            return code;
+        }
 
-		return description;
-	}
-
+        return description;
+    }
 }

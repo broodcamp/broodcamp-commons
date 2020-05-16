@@ -15,20 +15,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.broodcamp.data.entity;
+package adm.com.broodcamp.web.assembler;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
+
+import com.broodcamp.web.assembler.AbstractNamedResourceAssembler;
+
+import adm.com.broodcamp.business.domain.CityDto;
+import adm.com.broodcamp.web.application.CityController;
 
 /**
  * @author Edward P. Legaspi | czetsuya@gmail.com
  */
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
-public class Name {
-	
-	private String firstName;
-	private String lastName;
+@Component
+public class CityResourceAssembler extends AbstractNamedResourceAssembler<CityDto> {
+
+    public CityResourceAssembler() {
+
+        super(CityController.class);
+    }
 }
