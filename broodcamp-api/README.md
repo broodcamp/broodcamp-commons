@@ -5,6 +5,12 @@
 
 Base API classes for REST API project.
 
+I need to prefix some packages with adm to avoid conflict when declaring them as basePackages.
+
+## Troubleshooting
+
+Sometimes when mapstruct classes are generated but compilation problem ensues in the project just run project clean.
+
 ## Authors
 
 * **Edward P. Legaspi** - *Java Architect* - [czetsuya](https://github.com/czetsuya)
