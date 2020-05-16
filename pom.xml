@@ -25,7 +25,6 @@
 		<java.version>11</java.version>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
-		<springfox.version>3.0.0-SNAPSHOT</springfox.version>
 		<spring-boot-admin.version>2.1.6</spring-boot-admin.version>
 		<org.mapstruct.version>1.3.1.Final</org.mapstruct.version>
 		<lombok.version>1.18.12</lombok.version>
@@ -160,6 +159,7 @@
 				<artifactId>commons-io</artifactId>
 				<version>2.6</version>
 			</dependency>
+<<<<<<< HEAD
 
 			<!-- <dependency> -->
 			<!-- <groupId>io.springfox</groupId> -->
@@ -176,6 +176,13 @@
 			<!-- <artifactId>springfox-data-rest</artifactId> -->
 			<!-- <version>${springfox.version}</version> -->
 			<!-- </dependency> -->
+=======
+			<dependency>
+				<groupId>org.mapstruct</groupId>
+				<artifactId>mapstruct</artifactId>
+				<version>1.3.1.Final</version>
+			</dependency>
+>>>>>>> branch 'develop' of git@github.com:broodcamp/broodcamp-commons.git
 		</dependencies>
 	</dependencyManagement>
 
